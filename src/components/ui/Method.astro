@@ -1,22 +1,18 @@
 ---
 const steps = [
   {
-    num: 'I.',
     titre: 'On échange',
     desc: 'Un mail ou un coup de fil pour caler la date, le lieu et la formule. Réponse sous 24 heures.',
   },
   {
-    num: 'II.',
     titre: 'On installe',
     desc: 'La borne arrive quelques heures avant, calée, testée, prête à sourire.',
   },
   {
-    num: 'III.',
     titre: 'Vous profitez',
     desc: 'Vos invités déclenchent, choisissent, impriment. Rien à surveiller, rien à gérer.',
   },
   {
-    num: 'IV.',
     titre: 'On récupère',
     desc: 'Passage le lendemain ou en fin de soirée. Tous les tirages et les fichiers restent à vous.',
   },
@@ -26,21 +22,15 @@ const steps = [
 <section id="method" class="method">
   <div class="container">
     <div class="method-head">
-      <div>
-        <span class="marker">Comment ça marche</span>
-        <h2>Quatre temps, <span class="it">zéro stress</span>.</h2>
-      </div>
-      <p>Une formule pensée pour les événements où vous voulez profiter, pas gérer un prestataire de plus le jour J.</p>
+      <h2>Comment ça marche <span class="it">?</span></h2>
+      <p>Une prestation pensée pour les événements où vous voulez profiter, pas gérer un prestataire de plus le jour J.</p>
     </div>
 
-    <ol class="frise" aria-label="Étapes de la prestation">
+    <ol class="timeline" aria-label="Étapes de la prestation">
       {steps.map((s, i) => (
-        <li class="frise-step">
-          <div class="frise-marker">
-            <span class="frise-num">{s.num}</span>
-            <span class="frise-dot" aria-hidden="true"></span>
-          </div>
-          <div class="frise-body">
+        <li class="timeline-step" style={`--i:${i}`}>
+          <span class="timeline-dot" aria-hidden="true"></span>
+          <div class="timeline-body">
             <h3>{s.titre}</h3>
             <p>{s.desc}</p>
           </div>
@@ -55,157 +45,148 @@ const steps = [
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    margin-bottom: 80px;
+    margin-bottom: 90px;
     align-items: end;
   }
 
   .method-head h2 {
     max-width: 620px;
-    margin-top: 24px;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .method-head h2 .it {
+    color: var(--coral-deep);
+    font-weight: 400;
   }
 
   .method-head p {
     color: var(--ink-soft);
     font-size: 18px;
-    max-width: 400px;
+    max-width: 420px;
     margin: 0;
   }
 
-  /* -------- La frise -------- */
-  .frise {
+  /* ============================================
+     TIMELINE — 4 étapes en frise horizontale
+     ============================================ */
+  .timeline {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 32px;
-    padding: 0;
+    padding: 60px 0 0;
     margin: 0;
     list-style: none;
     position: relative;
   }
 
-  /* Ligne horizontale qui relie les points */
-  .frise::before {
+  /* La ligne d'évolution : gradient corail clair → foncé,
+     qui traverse tous les points et suggère la progression */
+  .timeline::before {
     content: "";
     position: absolute;
-    top: 26px;
-    left: 6%;
-    right: 6%;
-    height: 2px;
-    background: repeating-linear-gradient(
+    top: 60px;
+    left: 12%;
+    right: 12%;
+    height: 3px;
+    background: linear-gradient(
       to right,
-      var(--coral) 0 8px,
-      transparent 8px 18px
+      var(--coral-soft) 0%,
+      var(--coral) 40%,
+      var(--coral-deep) 100%
     );
+    border-radius: 3px;
     z-index: 0;
   }
 
-  .frise-step {
+  .timeline-step {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
     position: relative;
     z-index: 1;
   }
 
-  .frise-marker {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .timeline-dot {
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 4px solid var(--coral);
+    box-shadow: 0 0 0 8px var(--paper), 0 6px 16px -4px rgba(240, 119, 74, 0.4);
     position: relative;
   }
 
-  .frise-num {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-variation-settings: "SOFT" 100, "opsz" 144;
-    font-weight: 400;
-    font-size: 36px;
-    color: var(--coral);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    padding-left: 4px;
+  /* Progression : chaque point s'assombrit un peu vers la fin */
+  .timeline-step:nth-child(1) .timeline-dot { border-color: var(--coral-soft); }
+  .timeline-step:nth-child(2) .timeline-dot { border-color: var(--coral); }
+  .timeline-step:nth-child(3) .timeline-dot { border-color: var(--coral); background: var(--coral-soft); }
+  .timeline-step:nth-child(4) .timeline-dot {
+    border-color: var(--coral-deep);
+    background: var(--coral);
   }
 
-  .frise-dot {
-    display: block;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: var(--paper);
-    border: 3px solid var(--coral);
-    margin-left: 8px;
-    box-shadow: 0 0 0 6px var(--paper);
-  }
-
-  .frise-body h3 {
+  .timeline-body h3 {
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 22px;
+    font-size: 24px;
     letter-spacing: -0.015em;
-    margin: 0 0 8px;
+    margin: 0 0 10px;
+    line-height: 1.1;
   }
 
-  .frise-body p {
+  .timeline-body p {
     color: var(--ink-soft);
     font-size: 15px;
     line-height: 1.55;
     margin: 0;
-    max-width: 280px;
+    max-width: 260px;
   }
 
-  /* -------- Responsive -------- */
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
   @media (max-width: 960px) {
     .method-head {
       grid-template-columns: 1fr;
       gap: 24px;
       align-items: start;
     }
-    .frise {
-      grid-template-columns: 1fr 1fr;
-      gap: 40px 32px;
-    }
-    .frise::before {
-      display: none;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .frise {
+    .timeline {
       grid-template-columns: 1fr;
-      gap: 28px;
-      position: relative;
+      gap: 40px;
+      padding: 20px 0 0 24px;
     }
-    .frise::before {
-      display: block;
-      top: 0;
-      bottom: 0;
-      left: 20px;
+    /* Ligne verticale à gauche sur mobile */
+    .timeline::before {
+      top: 30px;
+      bottom: 30px;
+      left: 12px;
       right: auto;
-      width: 2px;
+      width: 3px;
       height: auto;
-      background: repeating-linear-gradient(
+      background: linear-gradient(
         to bottom,
-        var(--coral) 0 8px,
-        transparent 8px 18px
+        var(--coral-soft) 0%,
+        var(--coral) 40%,
+        var(--coral-deep) 100%
       );
     }
-    .frise-step {
+    .timeline-step {
       flex-direction: row;
-      gap: 20px;
       align-items: flex-start;
+      text-align: left;
+      gap: 24px;
     }
-    .frise-marker {
+    .timeline-dot {
+      margin-left: -25px;
       flex-shrink: 0;
-      width: 44px;
-      align-items: center;
+      box-shadow: 0 0 0 6px var(--paper);
     }
-    .frise-num {
-      font-size: 26px;
-      padding: 0;
-    }
-    .frise-dot {
-      margin-left: 0;
+    .timeline-body p {
+      max-width: none;
     }
   }
 </style>
