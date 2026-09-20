@@ -1,0 +1,233 @@
+/* ============================================
+   IRRIA — DESIGN TOKENS
+   ============================================ */
+:root {
+  --coral: #F0774A;
+  --coral-deep: #C24E29;
+  --coral-soft: #FBCAB1;
+  --cream: #F6E9CE;
+  --cream-pale: #FBF3E1;
+  --cream-deep: #EBD8B0;
+  --ink: #1B120D;
+  --ink-soft: #5C453A;
+  --ink-mute: #8C7466;
+  --line: rgba(27, 18, 13, 0.12);
+  --paper: #FBF3E1;
+
+  --font-heading: 'Fraunces', Georgia, serif;
+  --font-body: 'Lato', system-ui, -apple-system, sans-serif;
+
+  --container-width: 1240px;
+  --gutter: 32px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--coral);
+  color: var(--paper);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-wrap: balance;
+  margin: 0;
+  color: var(--ink);
+}
+
+h1 { font-size: clamp(2.5rem, 5.5vw, 4.5rem); line-height: 0.98; }
+h2 { font-size: clamp(2rem, 4.5vw, 3.5rem); }
+h3 { font-size: 1.4rem; font-weight: 600; }
+
+em, i, .it {
+  font-style: italic;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+}
+
+p { margin: 0 0 1em; }
+p:last-child { margin-bottom: 0; }
+
+a { color: inherit; text-decoration: none; }
+
+img { display: block; max-width: 100%; }
+
+/* ============================================
+   LAYOUT
+   ============================================ */
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+section {
+  padding-block: clamp(72px, 9vw, 120px);
+}
+
+/* ============================================
+   MARKER — the little smile above headings
+   ============================================ */
+.marker {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-variation-settings: "SOFT" 100, "opsz" 9;
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--coral-deep);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.marker::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 12px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12' fill='none'><path d='M2 3 Q 12 14, 22 3' stroke='%23C24E29' stroke-width='2.5' stroke-linecap='round'/></svg>") center/contain no-repeat;
+  transform: translateY(3px);
+}
+
+.marker.on-dark { color: var(--coral-soft); }
+.marker.on-dark::before { filter: brightness(1.4); }
+.marker.on-coral { color: var(--paper); }
+.marker.on-coral::before { filter: brightness(3); }
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 15px 28px;
+  border-radius: 999px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn:hover {
+  background: var(--coral-deep);
+  transform: translateY(-1px);
+}
+
+.btn-primary,
+.btn.coral {
+  background: var(--coral);
+  color: var(--paper);
+}
+.btn-primary:hover,
+.btn.coral:hover {
+  background: var(--coral-deep);
+}
+
+.btn-outline,
+.btn.link {
+  background: transparent;
+  color: var(--ink);
+  padding: 4px 0;
+  border-radius: 0;
+  border-bottom: 1.5px solid var(--ink);
+}
+.btn-outline:hover,
+.btn.link:hover {
+  color: var(--coral-deep);
+  border-color: var(--coral-deep);
+  background: transparent;
+  transform: none;
+}
+
+.arrow {
+  transition: transform 0.2s;
+  display: inline-block;
+}
+.btn:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* ============================================
+   PROSE — MDX content
+   ============================================ */
+.prose {
+  max-width: 780px;
+}
+.prose h2 {
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.prose h2:first-child {
+  margin-top: 0;
+}
+.prose p {
+  margin: 0 0 1.15em;
+  color: var(--ink-soft);
+  font-size: 17.5px;
+  line-height: 1.65;
+}
+.prose a {
+  color: var(--coral-deep);
+  border-bottom: 1px solid var(--coral-soft);
+  transition: border-color 0.2s;
+}
+.prose a:hover {
+  border-color: var(--coral-deep);
+}
+.prose ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--ink-soft);
+}
+.prose li {
+  margin-bottom: 0.5rem;
+}
+.prose strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ============================================
+   REDUCED MOTION
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,48 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const entry = await getEntry('pages', 'mentions-legales');
+if (!entry) throw new Error('Contenu manquant : src/content/pages/mentions-legales.mdx');
+const { Content } = await render(entry);
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: 'Mentions légales', url: 'https://irria-photobooth.fr/mentions-legales/' },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  breadcrumbs={breadcrumbs}
+>
+  <section class="container legal">
+    <h1>{entry.data.h1}</h1>
+    <Content />
+  </section>
+</BaseLayout>
+
+<style is:global>
+  .legal {
+    max-width: 760px;
+  }
+
+  .legal h2 {
+    font-size: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .legal a {
+    color: var(--color-corail-fonce);
+  }
+
+  .legal .legal-todo {
+    background: var(--color-creme);
+    border-left: 3px solid var(--color-corail);
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-encre-secondaire);
+  }
+</style>

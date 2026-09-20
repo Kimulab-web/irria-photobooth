@@ -1,0 +1,49 @@
+---
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://irria-photobooth.fr/#business',
+  name: 'Irria Photobooth',
+  alternateName: 'Irria',
+  description:
+    'Location de photobooth au design vintage au Pays Basque, dans les Landes et en Béarn. Borne installée avant l\'événement, autonome pendant, récupérée après. Tirages instantanés et templates personnalisés.',
+  url: 'https://irria-photobooth.fr',
+  logo: 'https://irria-photobooth.fr/logo-irria-coral.png',
+  image: 'https://irria-photobooth.fr/borne-hero.jpg',
+  telephone: '+33624046891',
+  email: 'contact@irria-photobooth.fr',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '30 rue Léon Larregain',
+    postalCode: '64240',
+    addressLocality: 'Hasparren',
+    addressRegion: 'Nouvelle-Aquitaine',
+    addressCountry: 'FR',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: 43.3833,
+    longitude: -1.3,
+  },
+  areaServed: [
+    { '@type': 'AdministrativeArea', name: 'Pays Basque' },
+    { '@type': 'AdministrativeArea', name: 'Landes' },
+    { '@type': 'AdministrativeArea', name: 'Béarn' },
+    { '@type': 'City', name: 'Bayonne' },
+    { '@type': 'City', name: 'Biarritz' },
+    { '@type': 'City', name: 'Anglet' },
+    { '@type': 'City', name: 'Saint-Jean-de-Luz' },
+    { '@type': 'City', name: 'Hendaye' },
+    { '@type': 'City', name: 'Hasparren' },
+    { '@type': 'City', name: 'Cambo-les-Bains' },
+    { '@type': 'City', name: 'Espelette' },
+    { '@type': 'City', name: 'Dax' },
+    { '@type': 'City', name: 'Hossegor' },
+    { '@type': 'City', name: 'Capbreton' },
+    { '@type': 'City', name: 'Pau' },
+  ],
+  priceRange: '€€',
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

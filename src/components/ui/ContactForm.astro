@@ -1,0 +1,232 @@
+---
+import { formules } from '../../data/formules';
+
+const typesEvenement = [
+  { value: 'mariage', label: 'Mariage' },
+  { value: 'anniversaire', label: 'Anniversaire' },
+  { value: 'bapteme', label: 'Baptême / communion' },
+  { value: 'entreprise', label: 'Événement d\'entreprise' },
+  { value: 'kermesse', label: 'Kermesse / fête d\'école' },
+  { value: 'festival', label: 'Festival / association' },
+  { value: 'autre', label: 'Autre' },
+];
+---
+
+<form id="contact-form" class="contact-form">
+  <div class="contact-form__row">
+    <label for="nom">Nom complet *</label>
+    <input type="text" id="nom" name="nom" required autocomplete="name" />
+  </div>
+
+  <div class="contact-form__row--split">
+    <div class="contact-form__row">
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" required autocomplete="email" />
+    </div>
+    <div class="contact-form__row">
+      <label for="telephone">Téléphone</label>
+      <input type="tel" id="telephone" name="telephone" autocomplete="tel" />
+    </div>
+  </div>
+
+  <div class="contact-form__row--split">
+    <div class="contact-form__row">
+      <label for="formule">Formule souhaitée</label>
+      <select id="formule" name="formule">
+        <option value="">Je ne sais pas encore</option>
+        {formules.map((f) => <option value={f.slug}>{f.nom}, {f.sousTitre}</option>)}
+      </select>
+    </div>
+    <div class="contact-form__row">
+      <label for="typeEvenement">Type d'événement</label>
+      <select id="typeEvenement" name="typeEvenement">
+        <option value="">Sélectionner</option>
+        {typesEvenement.map((t) => <option value={t.value}>{t.label}</option>)}
+      </select>
+    </div>
+  </div>
+
+  <div class="contact-form__row--split">
+    <div class="contact-form__row">
+      <label for="date">Date de l'événement</label>
+      <input type="date" id="date" name="date" />
+    </div>
+    <div class="contact-form__row">
+      <label for="invites">Nombre d'invités estimé</label>
+      <input type="number" id="invites" name="invites" min="1" />
+    </div>
+  </div>
+
+  <div class="contact-form__row--split">
+    <div class="contact-form__row">
+      <label for="ville">Ville</label>
+      <input type="text" id="ville" name="ville" autocomplete="address-level2" />
+    </div>
+    <div class="contact-form__row">
+      <label for="codePostal">Code postal</label>
+      <input
+        type="text"
+        id="codePostal"
+        name="codePostal"
+        inputmode="numeric"
+        autocomplete="postal-code"
+      />
+    </div>
+  </div>
+
+  <div class="contact-form__row">
+    <label for="message">Message</label>
+    <textarea id="message" name="message" rows="5" placeholder="Lieu exact, ambiance, questions particulières..."></textarea>
+  </div>
+
+  <div class="contact-form__honeypot" aria-hidden="true">
+    <label for="entreprise-site">Ne pas remplir</label>
+    <input type="text" id="entreprise-site" name="entreprise-site" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <button type="submit" class="btn coral contact-form__submit">Envoyer ma demande <span class="arrow">→</span></button>
+
+  <p class="contact-form__feedback" role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: var(--cream-pale);
+    border-radius: 24px;
+    padding: 36px;
+    border: 1px solid var(--line);
+  }
+
+  .contact-form__row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .contact-form__row--split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .contact-form label {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  .contact-form input,
+  .contact-form select,
+  .contact-form textarea {
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .contact-form input:focus,
+  .contact-form select:focus,
+  .contact-form textarea:focus {
+    outline: none;
+    border-color: var(--coral);
+    box-shadow: 0 0 0 3px rgba(240, 119, 74, 0.15);
+  }
+
+  .contact-form__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .contact-form__submit {
+    align-self: flex-start;
+    margin-top: 8px;
+  }
+
+  .contact-form__submit:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .contact-form__feedback {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 500;
+    color: var(--coral-deep);
+    min-height: 1.4em;
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .contact-form__feedback.is-error {
+    color: #b3261e;
+  }
+
+  @media (max-width: 620px) {
+    .contact-form {
+      padding: 24px;
+    }
+    .contact-form__row--split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+  if (form) {
+    const feedback = form.querySelector<HTMLParagraphElement>('.contact-form__feedback');
+    const submitButton = form.querySelector<HTMLButtonElement>('.contact-form__submit');
+    const formuleSelect = form.querySelector<HTMLSelectElement>('#formule');
+
+    const formuleParam = new URLSearchParams(window.location.search).get('formule');
+    if (formuleSelect && formuleParam) {
+      const exists = Array.from(formuleSelect.options).some((option) => option.value === formuleParam);
+      if (exists) formuleSelect.value = formuleParam;
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!feedback) return;
+
+      feedback.textContent = '';
+      feedback.classList.remove('is-error');
+      if (submitButton) submitButton.disabled = true;
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+        });
+
+        if (!response.ok) {
+          const result = await response.json().catch(() => null);
+          throw new Error(result?.error ?? 'Une erreur est survenue.');
+        }
+
+        feedback.textContent = 'Merci, réponse sous 24 heures.';
+        form.reset();
+      } catch (error) {
+        feedback.textContent = error instanceof Error ? error.message : 'Une erreur est survenue.';
+        feedback.classList.add('is-error');
+      } finally {
+        if (submitButton) submitButton.disabled = false;
+      }
+    });
+  }
+</script>

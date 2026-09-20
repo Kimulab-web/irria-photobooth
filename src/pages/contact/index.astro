@@ -1,0 +1,104 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContactForm from '../../components/ui/ContactForm.astro';
+
+const entry = await getEntry('pages', 'contact');
+if (!entry) throw new Error('Contenu manquant : src/content/pages/contact.mdx');
+const { Content } = await render(entry);
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: 'Contact', url: 'https://irria-photobooth.fr/contact/' },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  breadcrumbs={breadcrumbs}
+>
+  <section class="contact-hero">
+    <div class="container">
+      <span class="marker">Contact</span>
+      <h1>{entry.data.h1}</h1>
+    </div>
+  </section>
+
+  <section class="container contact-page">
+    <div class="contact-page__intro">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <div class="contact-page__infos">
+        <p class="contact-page__name">Irria Photobooth</p>
+        <p>30 rue Léon Larregain<br />64240 Hasparren, France</p>
+        <p><a href="tel:+33624046891">06 24 04 68 91</a></p>
+        <p><a href="mailto:contact@irria-photobooth.fr">contact@irria-photobooth.fr</a></p>
+      </div>
+    </div>
+
+    <ContactForm />
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-hero {
+    padding-block: 60px 40px;
+  }
+  .contact-hero .marker { margin-bottom: 20px; }
+  .contact-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .contact-page {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 60px;
+    align-items: start;
+    padding-block: 40px 100px;
+  }
+
+  .contact-page__intro {
+    padding-right: 20px;
+  }
+
+  .contact-page__infos {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .contact-page__infos p {
+    margin: 6px 0;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  .contact-page__name {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 600;
+    font-size: 22px;
+    color: var(--ink) !important;
+    margin-bottom: 12px !important;
+  }
+
+  .contact-page__infos a {
+    color: var(--coral-deep);
+    border-bottom: 1px solid var(--coral-soft);
+  }
+
+  @media (max-width: 900px) {
+    .contact-page {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .contact-page__intro {
+      padding-right: 0;
+    }
+  }
+</style>

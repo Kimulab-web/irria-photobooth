@@ -1,0 +1,28 @@
+# build output
+dist/
+.output/
+
+# generated types
+.astro/
+
+# dependencies
+node_modules/
+
+# environment variables
+.env
+.env.production
+
+# macOS
+.DS_Store
+
+# editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# vercel
+.vercel/
+
+# Claude Cowork scratch outputs
+Claude outputs/
+.claude/

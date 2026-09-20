@@ -1,0 +1,103 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  titleHighlight?: string;
+  subtitle?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  showPhone?: boolean;
+}
+
+const {
+  eyebrow = 'Prêt à réserver ?',
+  title = 'On',
+  titleHighlight = 'bloque',
+  subtitle = 'Dites-nous la date, le lieu et l\'occasion. Réponse sous 24 heures avec devis et disponibilité confirmée.',
+  ctaLabel = 'Écrire à Irria',
+  ctaHref = '/contact/',
+  showPhone = true,
+} = Astro.props;
+---
+
+<section class="cta-band">
+  <div class="container cta-inner">
+    <span class="marker on-coral">{eyebrow}</span>
+    <h2>{title} <span class="it">{titleHighlight}</span> votre date ?</h2>
+    <p>{subtitle}</p>
+    <a href={ctaHref} class="btn">{ctaLabel} <span class="arrow">→</span></a>
+    {showPhone && (
+      <p class="cta-tel">ou par téléphone <strong>06 24 04 68 91</strong></p>
+    )}
+  </div>
+</section>
+
+<style>
+  .cta-band {
+    background: var(--coral);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-band::before {
+    content: "";
+    position: absolute;
+    bottom: -40%;
+    left: -10%;
+    right: -10%;
+    height: 200%;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 200' fill='none'><path d='M0 100 Q 400 250, 800 100' stroke='rgba(251,243,225,0.15)' stroke-width='4' stroke-linecap='round' fill='none'/></svg>") center/100% 100% no-repeat;
+    pointer-events: none;
+  }
+
+  .cta-inner {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .cta-inner h2 {
+    color: var(--paper);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    max-width: 800px;
+  }
+
+  .cta-inner h2 .it {
+    font-weight: 400;
+  }
+
+  .cta-inner p {
+    max-width: 500px;
+    font-size: 18px;
+    opacity: 0.92;
+    margin: 0;
+  }
+
+  .cta-inner .btn {
+    background: var(--paper);
+    color: var(--coral-deep);
+  }
+
+  .cta-inner .btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .cta-tel {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-size: 18px;
+    margin-top: 4px;
+  }
+
+  .cta-tel strong {
+    font-style: normal;
+    font-weight: 700;
+  }
+</style>

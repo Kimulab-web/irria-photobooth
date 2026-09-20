@@ -1,0 +1,244 @@
+---
+interface CtaLink {
+  label: string;
+  href: string;
+}
+
+interface Fact {
+  num: string;
+  label: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  titleHighlight?: string;
+  titleAfter?: string;
+  subtitle?: string;
+  primaryCta?: CtaLink;
+  secondaryCta?: CtaLink;
+  image?: string;
+  imageAlt?: string;
+  badge?: string;
+  facts?: Fact[];
+}
+
+const {
+  eyebrow = 'Location de photobooth · Pays Basque, Landes, Béarn',
+  title,
+  titleHighlight,
+  titleAfter,
+  subtitle,
+  primaryCta = { label: 'Réserver ma date', href: '/contact/' },
+  secondaryCta = { label: 'Voir les formules', href: '/nos-formules/' },
+  image = '/borne-hero.jpg',
+  imageAlt = 'La borne photobooth Irria en pied avec sa lampe rétro et son trépied en bois',
+  badge = '« On a adoré. »',
+  facts,
+} = Astro.props;
+---
+
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <span class="marker">{eyebrow}</span>
+      <h1>
+        {title}
+        {titleHighlight && <span class="it-line">{titleHighlight}</span>}
+        {titleAfter && <span class="after">{titleAfter}</span>}
+      </h1>
+      {subtitle && <p class="hero-lede">{subtitle}</p>}
+      <div class="hero-actions">
+        <a href={primaryCta.href} class="btn coral">{primaryCta.label} <span class="arrow">→</span></a>
+        <a href={secondaryCta.href} class="btn link">{secondaryCta.label}</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src={image} alt={imageAlt} width="600" height="750" loading="eager" />
+      {badge && <span class="hero-badge">{badge}</span>}
+    </div>
+  </div>
+
+  {facts && facts.length > 0 && (
+    <div class="hero-facts">
+      {facts.map((f) => (
+        <div class="hero-fact">
+          <span class="hero-fact-num">{f.num}</span>
+          <span class="hero-fact-label">{f.label}</span>
+        </div>
+      ))}
+    </div>
+  )}
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 60px 0 0;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+    gap: clamp(30px, 5vw, 70px);
+    align-items: end;
+    padding: 0 var(--gutter);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .hero-copy {
+    padding-bottom: 60px;
+    max-width: 640px;
+  }
+
+  .hero-copy .marker {
+    margin-bottom: 32px;
+  }
+
+  .hero h1 {
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.94;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+  }
+
+  .hero h1 .it-line {
+    display: block;
+    font-style: italic;
+    color: var(--coral-deep);
+    font-weight: 400;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    letter-spacing: -0.045em;
+  }
+
+  .hero h1 .after {
+    display: block;
+  }
+
+  .hero-lede {
+    margin: 32px 0 0;
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 480px;
+    line-height: 1.55;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .hero-photo {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 220px 220px 24px 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -25px rgba(27, 18, 13, 0.4);
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-photo::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(240, 119, 74, 0.08) 0%, transparent 25%, transparent 70%, rgba(27, 18, 13, 0.15) 100%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 12px 18px;
+    border-radius: 14px;
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 600;
+    font-size: 15px;
+    z-index: 2;
+    box-shadow: 0 10px 25px -8px rgba(27, 18, 13, 0.25);
+  }
+
+  .hero-facts {
+    display: flex;
+    gap: 40px;
+    padding: 40px var(--gutter) 0;
+    max-width: 1400px;
+    margin: 60px auto 0;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+
+  .hero-fact {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .hero-fact-num {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 1;
+    color: var(--coral-deep);
+    letter-spacing: -0.02em;
+  }
+
+  .hero-fact-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.02em;
+    max-width: 200px;
+  }
+
+  @media (max-width: 960px) {
+    .hero {
+      padding-top: 20px;
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .hero-copy {
+      padding-bottom: 0;
+    }
+    .hero-photo {
+      max-width: 500px;
+      margin: 0 auto;
+      border-radius: 160px 160px 20px 20px;
+    }
+    .hero-facts {
+      gap: 24px;
+      padding-top: 32px;
+      margin-top: 40px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero-grid {
+      padding: 0 20px;
+    }
+    .hero-facts {
+      padding: 32px 20px 0;
+    }
+    .hero h1 {
+      font-size: 3rem;
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/ui/Hero.astro';
+import Marquee from '../components/ui/Marquee.astro';
+import Method from '../components/ui/Method.astro';
+import FormulesSection from '../components/ui/FormulesSection.astro';
+import Occasions from '../components/ui/Occasions.astro';
+import AboutSection from '../components/ui/AboutSection.astro';
+import Zones from '../components/ui/Zones.astro';
+import Faq from '../components/ui/Faq.astro';
+import CtaBanner from '../components/ui/CtaBanner.astro';
+
+const entry = await getEntry('pages', 'home');
+if (!entry) throw new Error('Contenu manquant : src/content/pages/home.mdx');
+
+const heroFacts = [
+  { num: '3', label: 'départements desservis, du littoral au Béarn' },
+  { num: '400', label: 'tirages inclus jusqu\'à, formule L\'incontournable' },
+  { num: '24h', label: 'délai moyen de réponse à votre demande' },
+  { num: '0', label: 'présence à gérer le jour J, c\'est le principe' },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  faqs={entry.data.faqs}
+>
+  <Hero
+    title="Une borne"
+    titleHighlight="qui fait sourire"
+    titleAfter="tous vos invités."
+    subtitle="Photobooth au design vintage, installé chez vous avant l'événement et récupéré après. Vous profitez, elle s'occupe des souvenirs."
+    facts={heroFacts}
+  />
+
+  <Marquee />
+  <Method />
+  <FormulesSection />
+  <Occasions />
+  <AboutSection />
+  <Zones />
+
+  {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
+
+  <CtaBanner />
+</BaseLayout>

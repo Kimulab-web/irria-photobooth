@@ -1,0 +1,169 @@
+---
+import { villes } from '../../data/villes';
+
+const year = new Date().getFullYear();
+const villesSelection = villes.slice(0, 12);
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="/logo-irria-cream.png" alt="Irria Photobooth" width="120" height="120" />
+        <p>Location de photobooth au Pays Basque, dans les Landes et en Béarn. Installation autonome, souvenirs garantis.</p>
+      </div>
+
+      <div class="foot-col">
+        <h4>Formules</h4>
+        <ul>
+          <li><a href="/nos-formules/#autonome">Autonome</a></li>
+          <li><a href="/nos-formules/#cocktail">Cocktail, 100 tirages</a></li>
+          <li><a href="/nos-formules/#fete">Fête, 200 tirages</a></li>
+          <li><a href="/nos-formules/#incontournable">L'incontournable, 400 tirages</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Occasions</h4>
+        <ul>
+          <li><a href="/photobooth-mariage-pays-basque/">Mariages</a></li>
+          <li><a href="/photobooth-entreprise-pays-basque/">Entreprises</a></li>
+          <li><a href="/photobooth-anniversaire/">Anniversaires</a></li>
+          <li><a href="/location-photobooth-pays-basque/">Pays Basque</a></li>
+          <li><a href="/location-photobooth-landes/">Landes</a></li>
+        </ul>
+      </div>
+
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>30 rue Léon Larregain</li>
+          <li>64240 Hasparren</li>
+          <li><a href="tel:+33624046891">06 24 04 68 91</a></li>
+          <li><a href="mailto:contact@irria-photobooth.fr">contact@irria-photobooth.fr</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="foot-cities" aria-label="Villes desservies">
+      <span class="foot-cities__label">On intervient aussi à</span>
+      {villesSelection.map((v, i) => (
+        <span class="foot-cities__item">{v}{i < villesSelection.length - 1 ? ' ·' : ''}</span>
+      ))}
+    </div>
+
+    <div class="foot-bottom">
+      <div>© {year} Irria Photobooth · Un site <a href="https://kimulab.fr" rel="noopener">Kimulab</a></div>
+      <div><a href="/mentions-legales/">Mentions légales</a></div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: var(--paper);
+    padding-block: 80px 32px;
+    margin-top: 0;
+  }
+
+  .foot-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 56px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid rgba(246, 233, 206, 0.14);
+  }
+
+  .foot-brand img {
+    height: 56px;
+    width: auto;
+    margin-bottom: 22px;
+  }
+
+  .foot-brand p {
+    color: rgba(246, 233, 206, 0.65);
+    font-size: 14.5px;
+    max-width: 280px;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .foot-col h4 {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--coral-soft);
+    margin: 0 0 20px;
+    letter-spacing: -0.01em;
+  }
+
+  .foot-col ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 14.5px;
+    color: rgba(246, 233, 206, 0.85);
+  }
+
+  .foot-col a {
+    transition: color 0.2s;
+  }
+  .foot-col a:hover {
+    color: var(--coral);
+  }
+
+  .foot-cities {
+    padding-block: 28px;
+    border-bottom: 1px solid rgba(246, 233, 206, 0.14);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: baseline;
+    font-size: 13.5px;
+    color: rgba(246, 233, 206, 0.6);
+  }
+
+  .foot-cities__label {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 9;
+    color: var(--coral-soft);
+    margin-right: 8px;
+  }
+
+  .foot-bottom {
+    margin-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+    color: rgba(246, 233, 206, 0.5);
+  }
+
+  .foot-bottom a {
+    transition: color 0.2s;
+  }
+  .foot-bottom a:hover {
+    color: var(--coral-soft);
+  }
+
+  @media (max-width: 900px) {
+    .foot-top {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .foot-top {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

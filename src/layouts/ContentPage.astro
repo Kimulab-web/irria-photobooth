@@ -1,0 +1,86 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Hero from '../components/ui/Hero.astro';
+import FormulesSection from '../components/ui/FormulesSection.astro';
+import Faq from '../components/ui/Faq.astro';
+import CtaBanner from '../components/ui/CtaBanner.astro';
+
+interface Props {
+  slug: string;
+  path: string;
+  breadcrumbLabel: string;
+  eyebrow?: string;
+  titleHighlight?: string;
+  titleAfter?: string;
+  heroSubtitle?: string;
+  ctaEyebrow?: string;
+  ctaTitle?: string;
+  ctaHighlight?: string;
+  ctaSubtitle?: string;
+  showFormules?: boolean;
+}
+
+const {
+  slug,
+  path,
+  breadcrumbLabel,
+  eyebrow,
+  titleHighlight,
+  titleAfter,
+  heroSubtitle,
+  ctaEyebrow = 'Prêt à réserver ?',
+  ctaTitle = 'On',
+  ctaHighlight = 'bloque',
+  ctaSubtitle = 'Dites-nous la date, le lieu et l\'occasion. Réponse sous 24 heures.',
+  showFormules = true,
+} = Astro.props;
+
+const entry = await getEntry('pages', slug);
+if (!entry) throw new Error(`Contenu manquant : src/content/pages/${slug}.mdx`);
+const { Content } = await render(entry);
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: breadcrumbLabel, url: `https://irria-photobooth.fr${path}` },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  faqs={entry.data.faqs}
+  breadcrumbs={breadcrumbs}
+>
+  <Hero
+    eyebrow={eyebrow}
+    title={entry.data.h1}
+    titleHighlight={titleHighlight}
+    titleAfter={titleAfter}
+    subtitle={heroSubtitle}
+  />
+
+  <section class="container prose-section">
+    <div class="prose">
+      <Content />
+    </div>
+  </section>
+
+  {showFormules && <FormulesSection />}
+
+  {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
+
+  <CtaBanner
+    eyebrow={ctaEyebrow}
+    title={ctaTitle}
+    titleHighlight={ctaHighlight}
+    subtitle={ctaSubtitle}
+  />
+</BaseLayout>
+
+<style>
+  .prose-section {
+    padding-block: clamp(60px, 8vw, 100px);
+  }
+</style>

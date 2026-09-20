@@ -1,0 +1,115 @@
+---
+const steps = [
+  { num: 'I.', titre: 'On installe avant', desc: 'La borne arrive quelques heures avant, calée, testée, prête à sourire.' },
+  { num: 'II.', titre: 'Vous profitez pendant', desc: 'Vos invités déclenchent, choisissent, impriment. Rien à surveiller, rien à gérer.' },
+  { num: 'III.', titre: 'On récupère après', desc: 'Passage le lendemain ou en fin de soirée. Tous les tirages et les fichiers restent à vous.' },
+];
+---
+
+<section id="method" class="method">
+  <div class="container">
+    <div class="method-head">
+      <div>
+        <span class="marker">Comment ça marche</span>
+        <h2>Trois temps, <span class="it">zéro stress</span>.</h2>
+      </div>
+      <p>Une formule pensée pour les événements où vous voulez profiter, pas gérer un prestataire de plus le jour J.</p>
+    </div>
+    <div class="acts">
+      {steps.map((s) => (
+        <div class="act">
+          <div class="act-num">{s.num}</div>
+          <h3>{s.titre}</h3>
+          <p>{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .method-head {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 70px;
+    align-items: end;
+  }
+
+  .method-head h2 {
+    max-width: 620px;
+    margin-top: 24px;
+  }
+
+  .method-head p {
+    color: var(--ink-soft);
+    font-size: 18px;
+    max-width: 400px;
+    margin: 0;
+  }
+
+  .acts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    border-top: 1px solid var(--line);
+  }
+
+  .act {
+    padding: 42px 32px 42px 0;
+    border-right: 1px solid var(--line);
+  }
+
+  .act:last-child {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .act-num {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 400;
+    font-size: 84px;
+    color: var(--coral);
+    line-height: 0.9;
+    margin-bottom: 20px;
+    letter-spacing: -0.03em;
+  }
+
+  .act h3 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 0 0 12px;
+    font-family: var(--font-heading);
+  }
+
+  .act p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 300px;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .method-head {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .acts {
+      grid-template-columns: 1fr;
+    }
+    .act {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 32px 0;
+    }
+    .act:last-child {
+      border-bottom: none;
+    }
+    .act-num {
+      font-size: 60px;
+    }
+  }
+</style>

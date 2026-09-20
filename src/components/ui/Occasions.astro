@@ -1,0 +1,95 @@
+---
+import { occasions } from '../../data/villes';
+---
+
+<section id="occasions">
+  <div class="container">
+    <div class="occasions-head">
+      <span class="marker">Occasions</span>
+      <h2>Pour vos <span class="it">plus beaux</span> moments.</h2>
+    </div>
+    <div class="occ-list">
+      {occasions.map((occ) => (
+        <div class="occ">
+          <div class="occ-num">{occ.num}</div>
+          <div class="occ-body">
+            <h3>{occ.nom}</h3>
+            <p>{occ.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .occasions-head {
+    max-width: 640px;
+    margin-bottom: 70px;
+  }
+
+  .occasions-head .marker {
+    margin-bottom: 24px;
+  }
+
+  .occ-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .occ {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    align-items: center;
+    gap: 24px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .occ:nth-child(odd) {
+    padding-right: 40px;
+    border-right: 1px solid var(--line);
+  }
+
+  .occ:nth-child(even) {
+    padding-left: 40px;
+  }
+
+  .occ-num {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 9;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--coral-deep);
+    letter-spacing: 0.02em;
+  }
+
+  .occ-body h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: -0.015em;
+    margin: 0 0 6px;
+  }
+
+  .occ-body p {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media (max-width: 720px) {
+    .occ-list {
+      grid-template-columns: 1fr;
+    }
+    .occ:nth-child(odd),
+    .occ:nth-child(even) {
+      padding: 24px 0;
+      border-right: none;
+    }
+  }
+</style>

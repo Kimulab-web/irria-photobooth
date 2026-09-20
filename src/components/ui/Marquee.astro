@@ -1,0 +1,72 @@
+---
+interface Props {
+  items?: string[];
+}
+
+const defaultItems = [
+  'Bayonne',
+  'Biarritz',
+  'Saint-Jean-de-Luz',
+  'Anglet',
+  'Hendaye',
+  'Hasparren',
+  'Cambo',
+  'Espelette',
+  'Dax',
+  'Pau',
+];
+
+const { items = defaultItems } = Astro.props;
+const doubled = [...items, ...items];
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    {doubled.map((item) => <span class="marquee-item">{item}</span>)}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 22px 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 60px;
+    animation: irriaScroll 40s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+
+  .marquee-item {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 400;
+    font-size: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 60px;
+  }
+
+  .marquee-item::after {
+    content: "";
+    width: 22px;
+    height: 12px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12' fill='none'><path d='M2 3 Q 12 14, 22 3' stroke='%23F0774A' stroke-width='2.5' stroke-linecap='round'/></svg>") center/contain no-repeat;
+  }
+
+  @keyframes irriaScroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track { animation: none; }
+  }
+</style>

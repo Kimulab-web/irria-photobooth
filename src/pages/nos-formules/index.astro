@@ -1,0 +1,71 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import FormulesSection from '../../components/ui/FormulesSection.astro';
+import Faq from '../../components/ui/Faq.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+import { zoneLivraison } from '../../data/formules';
+
+const entry = await getEntry('pages', 'nos-formules');
+if (!entry) throw new Error('Contenu manquant : src/content/pages/nos-formules.mdx');
+const { Content } = await render(entry);
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: 'Nos formules', url: 'https://irria-photobooth.fr/nos-formules/' },
+];
+---
+
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  faqs={entry.data.faqs}
+  breadcrumbs={breadcrumbs}
+>
+  <Hero
+    eyebrow="Nos formules"
+    title="Quatre formats,"
+    titleHighlight="un même savoir-faire."
+    subtitle="Une formule sans tirage pour l'ambiance seule, puis trois volumes de tirages selon la taille de votre événement."
+  />
+
+  <section class="container prose-section">
+    <div class="prose">
+      <Content />
+    </div>
+  </section>
+
+  <FormulesSection showHead={false} />
+
+  <section class="container zone-note-section">
+    <p class="zone-note">
+      Livraison incluse dans un rayon de {zoneLivraison.rayonKm} km depuis {zoneLivraison.villeDepart}.
+      Au-delà : {zoneLivraison.tarifSupplementaireParKm.toFixed(2).replace('.', ',')} €/km supplémentaire.
+    </p>
+  </section>
+
+  {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
+
+  <CtaBanner />
+</BaseLayout>
+
+<style>
+  .prose-section {
+    padding-block: clamp(48px, 6vw, 80px);
+  }
+  .zone-note-section {
+    padding-block: 0 clamp(48px, 6vw, 80px);
+  }
+  .zone-note {
+    text-align: center;
+    color: var(--ink-soft);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-size: 17px;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+</style>

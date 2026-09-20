@@ -1,0 +1,128 @@
+---
+/**
+ * Zones desservies — cascade typographique éditoriale sur fond sombre.
+ * Utilisée sur la home et les pages géo.
+ */
+interface ZoneWord {
+  ville: string;
+  size?: 'big' | 'mid' | 'small';
+  italic?: boolean;
+  br?: boolean;
+}
+
+interface Props {
+  zones?: ZoneWord[];
+  intro?: string;
+}
+
+const defaultZones: ZoneWord[] = [
+  { ville: 'Bayonne', size: 'big' },
+  { ville: 'Biarritz', size: 'mid' },
+  { ville: 'Anglet', size: 'small' },
+  { ville: 'Saint-Jean-de-Luz', size: 'big', italic: true },
+  { ville: 'Hendaye', size: 'small' },
+  { ville: 'Hasparren', size: 'mid', br: true },
+  { ville: 'Cambo-les-Bains', size: 'small' },
+  { ville: 'Espelette', size: 'mid', italic: true },
+  { ville: 'Ustaritz', size: 'small' },
+  { ville: 'Dax', size: 'big' },
+  { ville: 'Pau', size: 'mid' },
+  { ville: 'Saint-Pée-sur-Nivelle', size: 'small' },
+];
+
+const {
+  zones = defaultZones,
+  intro = 'Livraison incluse dans un rayon de 40 km depuis Hasparren. Au-delà, 0,80 € par kilomètre.',
+} = Astro.props;
+---
+
+<section id="zones" class="zones-band">
+  <div class="container">
+    <div class="zones-head">
+      <span class="marker on-dark">Où nous intervenons</span>
+      <h2>Toute la côte, l'intérieur, et <span class="it">au-delà</span>.</h2>
+      {intro && <p>{intro}</p>}
+    </div>
+    <div class="zones-list">
+      {zones.map((z, i) => (
+        <>
+          <span class:list={[z.size ?? 'mid', z.italic && 'it']}>{z.ville}</span>
+          {z.br && <br />}
+        </>
+      ))}
+    </div>
+    <p class="zones-note">Votre commune n'est pas listée ? Demandez, la plupart du temps c'est possible.</p>
+  </div>
+</section>
+
+<style>
+  .zones-band {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .zones-head {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 60px;
+  }
+
+  .zones-head h2 {
+    color: var(--paper);
+    margin-top: 20px;
+  }
+
+  .zones-head h2 .it {
+    color: var(--coral);
+    font-weight: 400;
+  }
+
+  .zones-head p {
+    color: rgba(246, 233, 206, 0.65);
+    font-size: 17px;
+    margin-top: 20px;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  .zones-list {
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .zones-list span {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    display: inline-block;
+    margin: 0 20px;
+    letter-spacing: -0.02em;
+    transition: color 0.2s;
+    cursor: default;
+  }
+
+  .zones-list .big { font-size: clamp(2.5rem, 6vw, 4.5rem); }
+  .zones-list .mid { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 400; }
+  .zones-list .small { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 600; opacity: 0.85; }
+  .zones-list .it {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+  }
+
+  .zones-list span:hover { color: var(--coral); }
+
+  .zones-note {
+    text-align: center;
+    margin-top: 60px;
+    color: rgba(246, 233, 206, 0.6);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-size: 17px;
+  }
+
+  @media (max-width: 560px) {
+    .zones-list span {
+      margin: 0 12px;
+    }
+  }
+</style>

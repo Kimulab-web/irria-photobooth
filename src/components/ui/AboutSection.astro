@@ -1,0 +1,111 @@
+---
+interface Props {
+  image?: string;
+  imageAlt?: string;
+}
+
+const {
+  image = '/borne-detail.jpg',
+  imageAlt = 'Détail de la lampe rétro de la borne Irria',
+} = Astro.props;
+---
+
+<section id="about" class="about-band">
+  <div class="container about">
+    <div class="about-photo">
+      <img src={image} alt={imageAlt} width="600" height="800" loading="lazy" />
+    </div>
+    <div class="about-copy">
+      <span class="marker">L'histoire d'Irria</span>
+      <h2>Un objet qui se <span class="it">remarque</span>, sans voler la vedette.</h2>
+      <p>Irria, c'est une borne photo en bois au design vintage. Lampe rétro, trépied élégant, boîtier chaleureux. Un objet qui a de la présence, choisi pour son cachet et sa fiabilité, et pensé pour se fondre dans l'ambiance de vos plus beaux moments.</p>
+      <p>Basée à Hasparren, Irria intervient sur tout le Pays Basque, dans les Landes et en Béarn. Le principe est simple : on pose, vous profitez, on récupère.</p>
+      <div class="about-pull">
+        « Irria », en basque, veut dire sourire.
+        <small>C'est tout le programme.</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-band {
+    background: var(--cream-pale);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-photo {
+    aspect-ratio: 3 / 4;
+    border-radius: 200px 24px 200px 24px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -25px rgba(27, 18, 13, 0.35);
+    max-width: 480px;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .about-copy .marker {
+    margin-bottom: 28px;
+  }
+
+  .about-copy h2 {
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    margin-bottom: 32px;
+  }
+
+  .about-copy p {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    line-height: 1.65;
+    margin-bottom: 18px;
+    max-width: 520px;
+  }
+
+  .about-pull {
+    margin-top: 40px;
+    padding: 24px 0 24px 32px;
+    border-left: 3px solid var(--coral);
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 1.35;
+    color: var(--ink);
+    max-width: 520px;
+  }
+
+  .about-pull small {
+    display: block;
+    margin-top: 12px;
+    font-style: normal;
+    font-family: var(--font-body);
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .about {
+      grid-template-columns: 1fr;
+      gap: 50px;
+    }
+    .about-photo {
+      margin: 0 auto;
+    }
+  }
+</style>
