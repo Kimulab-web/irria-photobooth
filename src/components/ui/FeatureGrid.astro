@@ -1,0 +1,120 @@
+---
+interface Feature {
+  titre: string;
+  desc: string;
+  icon?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  titleHighlight?: string;
+  features: Feature[];
+  band?: 'paper' | 'cream' | 'ink';
+}
+
+const {
+  eyebrow,
+  title,
+  titleHighlight,
+  features,
+  band = 'paper',
+} = Astro.props;
+
+// Icônes SVG inline (petits sourires ou marqueurs corail)
+const smileSvg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 20' fill='none'><path d='M4 6 Q 16 22, 28 6' stroke='currentColor' stroke-width='3' stroke-linecap='round'/></svg>`;
+---
+
+<section class:list={['features-band', `band-${band}`]}>
+  <div class="container">
+    {(eyebrow || title) && (
+      <div class="features-head reveal">
+        {eyebrow && <span class:list={['marker', band === 'ink' && 'on-dark']}>{eyebrow}</span>}
+        {title && (
+          <h2>
+            {title}
+            {titleHighlight && <> <span class="it">{titleHighlight}</span></>}
+          </h2>
+        )}
+      </div>
+    )}
+
+    <div class="features-grid">
+      {features.map((f, i) => (
+        <article class="feature reveal" style={`--reveal-delay: ${i * 100}ms`}>
+          <div class="feature-icon" aria-hidden="true" set:html={smileSvg} />
+          <h3>{f.titre}</h3>
+          <p>{f.desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .band-paper { background: var(--paper); }
+  .band-cream { background: var(--cream-pale); }
+  .band-ink {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .features-head {
+    max-width: 720px;
+    margin-bottom: 70px;
+  }
+  .features-head .marker {
+    margin-bottom: 24px;
+  }
+  .features-head h2 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+  .features-head h2 .it {
+    color: var(--coral-deep);
+    font-weight: 400;
+  }
+  .band-ink .features-head h2 { color: var(--paper); }
+  .band-ink .features-head h2 .it { color: var(--coral); }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 48px 40px;
+  }
+
+  .feature {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .feature-icon {
+    width: 44px;
+    height: 28px;
+    color: var(--coral);
+    margin-bottom: 4px;
+  }
+  .band-ink .feature-icon {
+    color: var(--coral-soft);
+  }
+
+  .feature h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 21px;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .band-ink .feature h3 { color: var(--paper); }
+
+  .feature p {
+    color: var(--ink-soft);
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .band-ink .feature p {
+    color: rgba(246, 233, 206, 0.75);
+  }
+</style>

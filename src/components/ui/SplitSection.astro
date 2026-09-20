@@ -1,0 +1,142 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  titleHighlight?: string;
+  titleAfter?: string;
+  image: string;
+  imageAlt: string;
+  side?: 'left' | 'right';
+  imageShape?: 'arch' | 'blob' | 'rect';
+  band?: 'paper' | 'cream';
+}
+
+const {
+  eyebrow,
+  title,
+  titleHighlight,
+  titleAfter,
+  image,
+  imageAlt,
+  side = 'right',
+  imageShape = 'arch',
+  band = 'paper',
+} = Astro.props;
+---
+
+<section class:list={['split', `split-${side}`, `band-${band}`]}>
+  <div class="container split-grid">
+    <div class="split-media reveal" class:list={[`shape-${imageShape}`, side === 'left' ? 'reveal-left' : 'reveal-right']}>
+      <img src={image} alt={imageAlt} loading="lazy" />
+    </div>
+
+    <div class="split-copy">
+      {eyebrow && <span class="marker reveal">{eyebrow}</span>}
+      <h2 class="reveal" style="--reveal-delay: 100ms">
+        {title}
+        {titleHighlight && <> <span class="it">{titleHighlight}</span></>}
+        {titleAfter && <> {titleAfter}</>}
+      </h2>
+      <div class="split-body reveal" style="--reveal-delay: 220ms">
+        <slot />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band-paper { background: var(--paper); }
+  .band-cream { background: var(--cream-pale); }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .split-left .split-grid {
+    grid-template-areas: "media copy";
+  }
+  .split-right .split-grid {
+    grid-template-areas: "copy media";
+  }
+
+  .split-media {
+    grid-area: media;
+    aspect-ratio: 4 / 5;
+    max-width: 520px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -25px rgba(27, 18, 13, 0.35);
+    transition: transform 600ms var(--ease-out), box-shadow 400ms var(--ease-out);
+  }
+  .split-media:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 40px 70px -25px rgba(27, 18, 13, 0.45);
+  }
+
+  .split-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms var(--ease-out);
+  }
+  .split-media:hover img {
+    transform: scale(1.04);
+  }
+
+  .shape-arch { border-radius: 200px 200px 24px 24px; }
+  .shape-blob { border-radius: 200px 24px 200px 24px; }
+  .shape-rect { border-radius: 24px; }
+
+  .split-copy {
+    grid-area: copy;
+    max-width: 540px;
+  }
+
+  .split-copy .marker {
+    margin-bottom: 24px;
+  }
+
+  .split-copy h2 {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    margin-bottom: 28px;
+  }
+
+  .split-copy h2 .it {
+    color: var(--coral-deep);
+    font-weight: 400;
+  }
+
+  .split-body {
+    color: var(--ink-soft);
+    font-size: 17.5px;
+    line-height: 1.65;
+  }
+
+  .split-body :global(p) {
+    margin: 0 0 1.15em;
+  }
+
+  .split-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .split-body :global(strong) {
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .split-grid,
+    .split-left .split-grid,
+    .split-right .split-grid {
+      grid-template-columns: 1fr;
+      grid-template-areas: "media" "copy";
+      gap: 40px;
+    }
+    .split-media {
+      margin: 0 auto;
+    }
+  }
+</style>

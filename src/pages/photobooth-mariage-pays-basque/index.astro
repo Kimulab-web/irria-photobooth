@@ -1,12 +1,97 @@
 ---
-import ContentPage from '../../layouts/ContentPage.astro';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import SplitSection from '../../components/ui/SplitSection.astro';
+import Highlight from '../../components/ui/Highlight.astro';
+import FeatureGrid from '../../components/ui/FeatureGrid.astro';
+import FormulesSection from '../../components/ui/FormulesSection.astro';
+import Faq from '../../components/ui/Faq.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const entry = await getEntry('pages', 'photobooth-mariage-pays-basque');
+if (!entry) throw new Error('Contenu manquant : mariage');
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: 'Photobooth mariage Pays Basque', url: 'https://irria-photobooth.fr/photobooth-mariage-pays-basque/' },
+];
+
+const features = [
+  { titre: 'Template à vos couleurs', desc: 'Vos prénoms, la date, votre palette. Chaque tirage devient un souvenir signé.' },
+  { titre: 'Accessoires soignés', desc: 'Chapeaux, lunettes, panneaux. Ce qui fait sortir les meilleures photos de la soirée.' },
+  { titre: 'Galerie complète', desc: 'Toutes les photos numériques envoyées après l\'événement, en HD.' },
+  { titre: 'Zéro logistique', desc: 'Installée avant le vin d\'honneur, récupérée après la soirée. Rien à gérer.' },
+];
 ---
 
-<ContentPage
-  slug="photobooth-mariage-pays-basque"
-  path="/photobooth-mariage-pays-basque/"
-  breadcrumbLabel="Photobooth mariage Pays Basque"
-  eyebrow="Mariage"
-  heroSubtitle="Borne installée avant le vin d'honneur, récupérée après la soirée. Template à vos prénoms, jusqu'à 400 tirages avec la formule L'incontournable."
-  ctaSubtitle="Votre date est déjà fixée ? Dites-nous quand et où, réponse sous 24 heures."
-/>
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  faqs={entry.data.faqs}
+  breadcrumbs={breadcrumbs}
+>
+  <Hero
+    eyebrow="Mariage · Pays Basque"
+    title="Le photobooth"
+    titleHighlight="de votre mariage,"
+    titleAfter="sans y penser."
+    subtitle="Une borne au design vintage, posée avant le vin d'honneur, récupérée après la soirée dansante. Vos invités déclenchent, choisissent, impriment. Vous profitez."
+    primaryCta={{ label: 'Réserver ma date', href: '/contact/?formule=incontournable' }}
+    secondaryCta={{ label: 'Voir les formules', href: '#formules' }}
+    badge="« Le plus beau souvenir. »"
+  />
+
+  <SplitSection
+    eyebrow="L'objet"
+    title="Une borne qui s'accorde à"
+    titleHighlight="votre décoration."
+    image="/borne-detail.jpg"
+    imageAlt="Détail de la lampe rétro de la borne Irria"
+    side="right"
+    imageShape="blob"
+    band="cream"
+  >
+    <p>Un mariage au Pays Basque, c'est souvent une ferme rénovée, un domaine en pierre, un jardin face aux montagnes. Une cabine photo en plastique blanc n'y a pas sa place.</p>
+    <p>La borne Irria a du <strong>bois</strong>, un <strong>trépied</strong>, une <strong>lampe rétro</strong>. Elle se fond dans la décoration au lieu de la trahir, et joue son rôle discrètement du vin d'honneur jusqu'à la fin de la soirée.</p>
+  </SplitSection>
+
+  <Highlight band="paper">
+    <p>Le jour J, personne ne reste sur place. <strong>Vous n'avez rien à gérer.</strong> La borne fonctionne en autonomie, du premier verre à la dernière danse.</p>
+  </Highlight>
+
+  <SplitSection
+    eyebrow="Le jour J"
+    title="Un souvenir pour"
+    titleHighlight="chaque invité,"
+    titleAfter="et un pour vous."
+    image="/borne-hero.jpg"
+    imageAlt="La borne Irria installée en pied avec sa lampe rétro"
+    side="left"
+    imageShape="arch"
+    band="paper"
+  >
+    <p>Les tirages sortent en quelques secondes, à votre template personnalisé : prénoms, date, palette. Vos invités en gardent un et glissent souvent le second dans le <strong>livre d'or</strong>, avec un mot.</p>
+    <p>Après l'événement, la <strong>galerie photos complète</strong> vous est envoyée — y compris tout ce que vous n'avez pas vu passer pendant la soirée.</p>
+  </SplitSection>
+
+  <FeatureGrid
+    eyebrow="Ce qui est inclus"
+    title="Tout ce qu'il faut,"
+    titleHighlight="rien à ajouter."
+    features={features}
+    band="cream"
+  />
+
+  <FormulesSection />
+
+  {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
+
+  <CtaBanner
+    eyebrow="Votre mariage"
+    title="On"
+    titleHighlight="bloque"
+    subtitle="Envoyez-nous votre date, le lieu et l'ambiance. Réponse sous 24 heures avec devis et disponibilité."
+  />
+</BaseLayout>

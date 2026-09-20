@@ -1,12 +1,99 @@
 ---
-import ContentPage from '../../layouts/ContentPage.astro';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import SplitSection from '../../components/ui/SplitSection.astro';
+import Highlight from '../../components/ui/Highlight.astro';
+import FeatureGrid from '../../components/ui/FeatureGrid.astro';
+import FormulesSection from '../../components/ui/FormulesSection.astro';
+import Faq from '../../components/ui/Faq.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const entry = await getEntry('pages', 'photobooth-anniversaire');
+if (!entry) throw new Error('Contenu manquant : anniversaire');
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: 'Photobooth anniversaire', url: 'https://irria-photobooth.fr/photobooth-anniversaire/' },
+];
+
+const features = [
+  { titre: 'Template personnalisé', desc: 'Prénom, âge, date, couleurs. Le tirage devient un souvenir signé, à la maison.' },
+  { titre: 'Accessoires fournis', desc: 'Chapeaux, lunettes, panneaux. Ce qui déclenche les meilleures photos.' },
+  { titre: 'Autonome sur toute la fête', desc: 'Fonctionne en continu, sans surveillance. Idéal aussi pour les kermesses.' },
+  { titre: 'Galerie envoyée après', desc: 'La collection complète en numérique, en HD, quelques jours plus tard.' },
+];
 ---
 
-<ContentPage
-  slug="photobooth-anniversaire"
-  path="/photobooth-anniversaire/"
-  breadcrumbLabel="Photobooth anniversaire"
-  eyebrow="Anniversaires, baptêmes, kermesses"
-  heroSubtitle="Borne installée avant, récupérée après la soirée. Accessoires et template personnalisé inclus. Idéal fêtes de famille, kermesses d'école, associations."
-  ctaSubtitle="Une fête à préparer ? Envoyez la date et le lieu, réponse sous 24 heures."
-/>
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  faqs={entry.data.faqs}
+  breadcrumbs={breadcrumbs}
+>
+  <Hero
+    eyebrow="Anniversaires · Baptêmes · Kermesses · Festivals"
+    title="Une borne qui"
+    titleHighlight="rassemble,"
+    titleAfter="petits et grands."
+    subtitle="Anniversaire marquant, baptême, communion, kermesse d'école, festival de village : la borne Irria s'installe partout, en autonomie, et vos invités repartent avec leurs photos."
+    primaryCta={{ label: 'Réserver ma date', href: '/contact/' }}
+    secondaryCta={{ label: 'Voir les formules', href: '#formules' }}
+    badge="« Toute la famille adore. »"
+  />
+
+  <SplitSection
+    eyebrow="Un objet qu'on n'a pas envie de cacher"
+    title="Dans un salon, une villa,"
+    titleHighlight="ou un préau."
+    image="/borne-hero.jpg"
+    imageAlt="La borne Irria installée en pied"
+    side="right"
+    imageShape="arch"
+    band="cream"
+  >
+    <p>Anniversaire marquant, baptême, EVJF, communion, kermesse : la borne Irria a du <strong>bois</strong>, un <strong>trépied</strong>, une <strong>lampe rétro</strong>. Elle a l'air d'un objet, pas d'un distributeur automatique.</p>
+    <p>Ça change beaucoup de choses dans un salon, une salle communale, un jardin, ou un préau d'école.</p>
+  </SplitSection>
+
+  <Highlight band="paper">
+    <p>Aucun prestataire sur place pendant la fête. <strong>Ce qui se passe entre vous reste entre vous</strong>, et les tirages en gardent la trace.</p>
+  </Highlight>
+
+  <SplitSection
+    eyebrow="À qui ça s'adresse"
+    title="Fêtes de famille,"
+    titleHighlight="fêtes d'école,"
+    titleAfter="festivals de village."
+    image="/borne-detail.jpg"
+    imageAlt="Détail de la lampe rétro de la borne Irria"
+    side="left"
+    imageShape="blob"
+    band="paper"
+  >
+    <p><strong>Anniversaires</strong> — 30, 40, 50 ans : les photos que la famille garde bien plus longtemps que le gâteau. Pour un anniversaire d'une vingtaine de personnes, la formule Cocktail suffit largement.</p>
+    <p><strong>Baptêmes & communions</strong> — un souvenir doux et intergénérationnel. Les grands-parents adorent, les enfants aussi.</p>
+    <p><strong>Kermesses & fêtes d'école</strong> — la borne tourne en continu, chaque famille repart avec sa photo, l'école récupère la galerie complète.</p>
+    <p><strong>Festivals & associations</strong> — une activation photo qui rassemble et qui laisse une trace tangible de l'événement.</p>
+  </SplitSection>
+
+  <FeatureGrid
+    eyebrow="Ce qui est inclus"
+    title="Tout ce qu'il faut,"
+    titleHighlight="rien à ajouter."
+    features={features}
+    band="cream"
+  />
+
+  <FormulesSection />
+
+  {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
+
+  <CtaBanner
+    eyebrow="Votre fête"
+    title="On"
+    titleHighlight="bloque"
+    subtitle="Envoyez-nous la date et le lieu. Réponse sous 24 heures avec devis et disponibilité."
+  />
+</BaseLayout>

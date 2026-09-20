@@ -1,12 +1,99 @@
 ---
-import ContentPage from '../../layouts/ContentPage.astro';
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/ui/Hero.astro';
+import SplitSection from '../../components/ui/SplitSection.astro';
+import Highlight from '../../components/ui/Highlight.astro';
+import FeatureGrid from '../../components/ui/FeatureGrid.astro';
+import FormulesSection from '../../components/ui/FormulesSection.astro';
+import Faq from '../../components/ui/Faq.astro';
+import CtaBanner from '../../components/ui/CtaBanner.astro';
+
+const entry = await getEntry('pages', 'photobooth-entreprise-pays-basque');
+if (!entry) throw new Error('Contenu manquant : entreprise');
+
+const breadcrumbs = [
+  { name: 'Accueil', url: 'https://irria-photobooth.fr/' },
+  { name: 'Photobooth entreprise', url: 'https://irria-photobooth.fr/photobooth-entreprise-pays-basque/' },
+];
+
+const features = [
+  { titre: 'Votre logo, vos couleurs', desc: 'Template intégré à votre identité visuelle, validé avant l\'événement.' },
+  { titre: 'Devis structuré', desc: 'Facturation adaptée à votre process : bon de commande, factures détaillées.' },
+  { titre: 'Autonome, discret', desc: 'Aucun prestataire à héberger, aucun planning à coordonner le jour J.' },
+  { titre: 'Galerie exploitable', desc: 'Photos HD envoyées après l\'événement, prêtes pour vos supports.' },
+];
 ---
 
-<ContentPage
-  slug="photobooth-entreprise-pays-basque"
-  path="/photobooth-entreprise-pays-basque/"
-  breadcrumbLabel="Photobooth entreprise Pays Basque"
-  eyebrow="Entreprise"
-  heroSubtitle="Séminaire, inauguration, soirée client : une borne au design vintage avec vos couleurs et votre logo sur chaque tirage. Devis détaillé sous 24 heures."
-  ctaSubtitle="Un événement d'entreprise à organiser ? Devis détaillé sous 24 heures, adapté à votre process de facturation."
-/>
+<BaseLayout
+  title={entry.data.title}
+  description={entry.data.description}
+  ogImage={entry.data.ogImage}
+  faqs={entry.data.faqs}
+  breadcrumbs={breadcrumbs}
+>
+  <Hero
+    eyebrow="Entreprise · Pays Basque, Landes, Béarn"
+    title="Un objet qui"
+    titleHighlight="fait parler,"
+    titleAfter="pas un gadget."
+    subtitle="Séminaire, inauguration, soirée client ou arbre de Noël : une borne en bois avec vos couleurs et votre logo sur chaque tirage. Devis détaillé sous 24 heures."
+    primaryCta={{ label: 'Demander un devis', href: '/contact/?typeEvenement=entreprise' }}
+    secondaryCta={{ label: 'Voir les formules', href: '#formules' }}
+    badge="« Le hit du séminaire. »"
+  />
+
+  <SplitSection
+    eyebrow="L'effet borne"
+    title="Un support"
+    titleHighlight="que vos invités emportent,"
+    titleAfter="avec votre marque."
+    image="/borne-hero.jpg"
+    imageAlt="La borne Irria installée en pied lors d'un événement"
+    side="right"
+    imageShape="arch"
+    band="cream"
+  >
+    <p>Pour un séminaire, une inauguration ou une soirée client, la borne en bois sur trépied joue un autre rôle qu'une cabine standard : elle <strong>attire</strong>, elle <strong>intrigue</strong>, et elle donne un support concret que vos invités emportent.</p>
+    <p>Chaque tirage sort à votre template : <strong>votre logo, vos couleurs</strong>, le nom de l'événement, la date. Un souvenir de marque qui reste bien après la soirée.</p>
+  </SplitSection>
+
+  <Highlight band="paper">
+    <p>Aucun prestataire à héberger, aucun planning à coordonner. La borne <strong>fonctionne en autonomie</strong>, de l'accueil à la fin de soirée.</p>
+  </Highlight>
+
+  <SplitSection
+    eyebrow="Le process"
+    title="Un devis"
+    titleHighlight="taillé pour vos services"
+    titleAfter="internes."
+    image="/borne-detail.jpg"
+    imageAlt="Détail de la lampe rétro de la borne Irria"
+    side="left"
+    imageShape="blob"
+    band="paper"
+  >
+    <p>Nous travaillons couramment avec des services <strong>communication</strong>, <strong>RH</strong> et <strong>événementiel</strong>. Devis détaillé sous 24 heures, facturation adaptée à votre process interne (bon de commande, factures à réception, coordonnées de facturation distinctes du lieu de livraison).</p>
+    <p>Après l'événement, la galerie photos complète est transmise, prête pour vos supports de communication (avec accord préalable des participants).</p>
+  </SplitSection>
+
+  <FeatureGrid
+    eyebrow="Ce qui est inclus"
+    title="Le confort d'un forfait"
+    titleHighlight="complet."
+    features={features}
+    band="cream"
+  />
+
+  <FormulesSection />
+
+  {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
+
+  <CtaBanner
+    eyebrow="Votre événement"
+    title="On"
+    titleHighlight="cadre"
+    subtitle="Envoyez-nous la date, le lieu et le contexte. Devis détaillé sous 24 heures, adapté à votre process."
+    ctaLabel="Demander un devis"
+  />
+</BaseLayout>
