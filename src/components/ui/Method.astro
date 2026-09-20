@@ -21,14 +21,14 @@ const steps = [
 
 <section id="method" class="method">
   <div class="container">
-    <div class="method-head">
+    <div class="method-head reveal">
       <h2>Comment ça marche <span class="it">?</span></h2>
       <p>Une prestation pensée pour les événements où vous voulez profiter, pas gérer un prestataire de plus le jour J.</p>
     </div>
 
     <ol class="timeline" aria-label="Étapes de la prestation">
       {steps.map((s, i) => (
-        <li class="timeline-step" style={`--i:${i}`}>
+        <li class="timeline-step reveal" style={`--reveal-delay: ${i * 120}ms`}>
           <span class="timeline-dot" aria-hidden="true"></span>
           <div class="timeline-body">
             <h3>{s.titre}</h3>
@@ -67,35 +67,49 @@ const steps = [
   }
 
   /* ============================================
-     TIMELINE — 4 étapes en frise horizontale
+     TIMELINE — frise horizontale
+     Ligne au centre vertical des ronds, du 1er au dernier.
      ============================================ */
   .timeline {
+    --cols: 4;
+    --gap: 32px;
+    --dot-size: 24px;
+    --line-thickness: 3px;
+
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    padding: 60px 0 0;
+    grid-template-columns: repeat(var(--cols), 1fr);
+    gap: var(--gap);
+    padding: 0;
     margin: 0;
     list-style: none;
     position: relative;
   }
 
-  /* La ligne d'évolution : gradient corail clair → foncé,
-     qui traverse tous les points et suggère la progression */
   .timeline::before {
     content: "";
     position: absolute;
-    top: 60px;
-    left: 12%;
-    right: 12%;
-    height: 3px;
+    top: calc(var(--dot-size) / 2 - var(--line-thickness) / 2);
+    left: calc((100% - (var(--cols) - 1) * var(--gap)) / (var(--cols) * 2));
+    right: calc((100% - (var(--cols) - 1) * var(--gap)) / (var(--cols) * 2));
+    height: var(--line-thickness);
     background: linear-gradient(
       to right,
       var(--coral-soft) 0%,
-      var(--coral) 40%,
+      var(--coral) 45%,
       var(--coral-deep) 100%
     );
-    border-radius: 3px;
+    border-radius: var(--line-thickness);
     z-index: 0;
+    /* La ligne se dessine au scroll */
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 1200ms var(--ease-out);
+    transition-delay: 200ms;
+  }
+
+  /* Une fois qu'au moins une étape est révélée, on trace la ligne */
+  .timeline:has(.is-in-view)::before {
+    transform: scaleX(1);
   }
 
   .timeline-step {
@@ -103,23 +117,27 @@ const steps = [
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 24px;
+    gap: 28px;
     position: relative;
     z-index: 1;
   }
 
   .timeline-dot {
     display: block;
-    width: 26px;
-    height: 26px;
+    width: var(--dot-size);
+    height: var(--dot-size);
     border-radius: 50%;
     background: var(--paper);
     border: 4px solid var(--coral);
     box-shadow: 0 0 0 8px var(--paper), 0 6px 16px -4px rgba(240, 119, 74, 0.4);
-    position: relative;
+    transition: transform 400ms var(--ease-out);
   }
 
-  /* Progression : chaque point s'assombrit un peu vers la fin */
+  .timeline-step:hover .timeline-dot {
+    transform: scale(1.2);
+  }
+
+  /* Progression corail clair → foncé */
   .timeline-step:nth-child(1) .timeline-dot { border-color: var(--coral-soft); }
   .timeline-step:nth-child(2) .timeline-dot { border-color: var(--coral); }
   .timeline-step:nth-child(3) .timeline-dot { border-color: var(--coral); background: var(--coral-soft); }
@@ -145,9 +163,6 @@ const steps = [
     max-width: 260px;
   }
 
-  /* ============================================
-     RESPONSIVE
-     ============================================ */
   @media (max-width: 960px) {
     .method-head {
       grid-template-columns: 1fr;
@@ -157,22 +172,26 @@ const steps = [
     .timeline {
       grid-template-columns: 1fr;
       gap: 40px;
-      padding: 20px 0 0 24px;
+      padding-left: 24px;
     }
-    /* Ligne verticale à gauche sur mobile */
     .timeline::before {
-      top: 30px;
-      bottom: 30px;
-      left: 12px;
+      top: calc(var(--dot-size) / 2);
+      bottom: calc(var(--dot-size) / 2);
+      left: calc(var(--dot-size) / 2 - var(--line-thickness) / 2);
       right: auto;
-      width: 3px;
+      width: var(--line-thickness);
       height: auto;
       background: linear-gradient(
         to bottom,
         var(--coral-soft) 0%,
-        var(--coral) 40%,
+        var(--coral) 45%,
         var(--coral-deep) 100%
       );
+      transform-origin: center top;
+      transform: scaleY(0);
+    }
+    .timeline:has(.is-in-view)::before {
+      transform: scaleY(1);
     }
     .timeline-step {
       flex-direction: row;
@@ -181,7 +200,7 @@ const steps = [
       gap: 24px;
     }
     .timeline-dot {
-      margin-left: -25px;
+      margin-left: calc(-1 * (var(--dot-size) / 2 + 12px));
       flex-shrink: 0;
       box-shadow: 0 0 0 6px var(--paper);
     }

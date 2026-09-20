@@ -34,19 +34,19 @@ const {
 <section class="hero" id="top">
   <div class="hero-grid">
     <div class="hero-copy">
-      <span class="marker">{eyebrow}</span>
-      <h1>
+      <span class="marker reveal" style="--reveal-delay: 0ms">{eyebrow}</span>
+      <h1 class="reveal" style="--reveal-delay: 80ms">
         {title}
         {titleHighlight && <span class="it-line">{titleHighlight}</span>}
         {titleAfter && <span class="after">{titleAfter}</span>}
       </h1>
-      {subtitle && <p class="hero-lede">{subtitle}</p>}
-      <div class="hero-actions">
+      {subtitle && <p class="hero-lede reveal" style="--reveal-delay: 220ms">{subtitle}</p>}
+      <div class="hero-actions reveal" style="--reveal-delay: 340ms">
         <a href={primaryCta.href} class="btn coral">{primaryCta.label} <span class="arrow">→</span></a>
         <a href={secondaryCta.href} class="btn link">{secondaryCta.label}</a>
       </div>
     </div>
-    <div class="hero-photo">
+    <div class="hero-photo reveal reveal-scale" style="--reveal-delay: 180ms">
       <img src={image} alt={imageAlt} width="600" height="750" loading="eager" />
       {badge && <span class="hero-badge">{badge}</span>}
     </div>
@@ -119,6 +119,12 @@ const {
     border-radius: 220px 220px 24px 24px;
     overflow: hidden;
     box-shadow: 0 30px 60px -25px rgba(27, 18, 13, 0.4);
+    transition: transform 600ms var(--ease-out), box-shadow 400ms var(--ease-out);
+  }
+
+  .hero-photo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 40px 70px -25px rgba(27, 18, 13, 0.5);
   }
 
   .hero-photo img {
@@ -126,6 +132,11 @@ const {
     height: 100%;
     object-fit: cover;
     object-position: center;
+    transition: transform 900ms var(--ease-out);
+  }
+
+  .hero-photo:hover img {
+    transform: scale(1.03);
   }
 
   .hero-photo::after {
@@ -151,6 +162,7 @@ const {
     font-size: 15px;
     z-index: 2;
     box-shadow: 0 10px 25px -8px rgba(27, 18, 13, 0.25);
+    transform: rotate(-3deg);
   }
 
   @media (max-width: 960px) {

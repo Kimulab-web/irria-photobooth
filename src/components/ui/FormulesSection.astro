@@ -12,7 +12,7 @@ const { showHead = true } = Astro.props;
 <section id="formules" class="formules-band">
   <div class="container">
     {showHead && (
-      <div class="formules-head">
+      <div class="formules-head reveal">
         <div>
           <span class="marker">Formules</span>
           <h2>Quatre formats, un même <span class="it">savoir-faire</span>.</h2>
@@ -21,7 +21,11 @@ const { showHead = true } = Astro.props;
       </div>
     )}
     <div class="formules-list">
-      {formules.map((f) => <FormuleRow formule={f} />)}
+      {formules.map((f, i) => (
+        <div class="reveal" style={`--reveal-delay: ${i * 120}ms`}>
+          <FormuleRow formule={f} />
+        </div>
+      ))}
     </div>
   </div>
 </section>

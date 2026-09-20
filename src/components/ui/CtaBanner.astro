@@ -22,12 +22,12 @@ const {
 
 <section class="cta-band">
   <div class="container cta-inner">
-    <span class="marker on-coral">{eyebrow}</span>
-    <h2>{title} <span class="it">{titleHighlight}</span> votre date ?</h2>
-    <p>{subtitle}</p>
-    <a href={ctaHref} class="btn">{ctaLabel} <span class="arrow">→</span></a>
+    <span class="marker on-coral reveal">{eyebrow}</span>
+    <h2 class="reveal" style="--reveal-delay: 100ms">{title} <span class="it">{titleHighlight}</span> votre date ?</h2>
+    <p class="reveal" style="--reveal-delay: 200ms">{subtitle}</p>
+    <a href={ctaHref} class="btn reveal" style="--reveal-delay: 300ms">{ctaLabel} <span class="arrow">→</span></a>
     {showPhone && (
-      <p class="cta-tel">ou par téléphone <strong>06 24 04 68 91</strong></p>
+      <p class="cta-tel reveal" style="--reveal-delay: 400ms">ou par téléphone <strong>06 24 04 68 91</strong></p>
     )}
   </div>
 </section>
@@ -86,6 +86,7 @@ const {
   .cta-inner .btn:hover {
     background: var(--ink);
     color: var(--paper);
+    box-shadow: 0 12px 30px -8px rgba(27, 18, 13, 0.4);
   }
 
   .cta-tel {

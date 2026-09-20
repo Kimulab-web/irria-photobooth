@@ -12,15 +12,15 @@ const {
 
 <section id="about" class="about-band">
   <div class="container about">
-    <div class="about-photo">
+    <div class="about-photo reveal reveal-left">
       <img src={image} alt={imageAlt} width="600" height="800" loading="lazy" />
     </div>
     <div class="about-copy">
-      <span class="marker">L'histoire d'Irria</span>
-      <h2>Un objet qui se <span class="it">remarque</span>, sans voler la vedette.</h2>
-      <p>Irria, c'est une borne photo en bois au design vintage. Lampe rétro, trépied élégant, boîtier chaleureux. Un objet qui a de la présence, choisi pour son cachet et sa fiabilité, et pensé pour se fondre dans l'ambiance de vos plus beaux moments.</p>
-      <p>Basée à Hasparren, Irria intervient sur tout le Pays Basque, dans les Landes et en Béarn. Le principe est simple : on pose, vous profitez, on récupère.</p>
-      <div class="about-pull">
+      <span class="marker reveal">L'histoire d'Irria</span>
+      <h2 class="reveal" style="--reveal-delay: 80ms">Un objet qui se <span class="it">remarque</span>, sans voler la vedette.</h2>
+      <p class="reveal" style="--reveal-delay: 180ms">Irria, c'est une borne photo en bois au design vintage. Lampe rétro, trépied élégant, boîtier chaleureux. Un objet qui a de la présence, choisi pour son cachet et sa fiabilité, et pensé pour se fondre dans l'ambiance de vos plus beaux moments.</p>
+      <p class="reveal" style="--reveal-delay: 260ms">Basée à Hasparren, Irria intervient sur tout le Pays Basque, dans les Landes et en Béarn. Le principe est simple : on pose, vous profitez, on récupère.</p>
+      <div class="about-pull reveal" style="--reveal-delay: 340ms">
         « Irria », en basque, veut dire sourire.
         <small>C'est tout le programme.</small>
       </div>
@@ -48,6 +48,12 @@ const {
     overflow: hidden;
     box-shadow: 0 30px 60px -25px rgba(27, 18, 13, 0.35);
     max-width: 480px;
+    transition: transform 600ms var(--ease-out), box-shadow 400ms var(--ease-out);
+  }
+
+  .about-photo:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 40px 70px -25px rgba(27, 18, 13, 0.45);
   }
 
   .about-photo img {
@@ -55,6 +61,11 @@ const {
     height: 100%;
     object-fit: cover;
     object-position: top;
+    transition: transform 900ms var(--ease-out);
+  }
+
+  .about-photo:hover img {
+    transform: scale(1.04);
   }
 
   .about-copy .marker {

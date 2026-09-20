@@ -19,6 +19,13 @@
 
   --container-width: 1240px;
   --gutter: 32px;
+
+  /* Motion tokens */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-med: 320ms;
+  --dur-slow: 720ms;
 }
 
 *,
@@ -49,6 +56,22 @@ body {
   color: var(--paper);
 }
 
+/* ============================================
+   FOCUS STATES — accessibilité UX
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--coral-deep);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+button:focus-visible,
+a:focus-visible {
+  outline-offset: 4px;
+}
+
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
   font-variation-settings: "SOFT" 100, "opsz" 144;
@@ -73,7 +96,6 @@ p { margin: 0 0 1em; }
 p:last-child { margin-bottom: 0; }
 
 a { color: inherit; text-decoration: none; }
-
 img { display: block; max-width: 100%; }
 
 /* ============================================
@@ -91,7 +113,7 @@ section {
 }
 
 /* ============================================
-   MARKER — the little smile above headings
+   MARKER — le petit sourire au-dessus des titres
    ============================================ */
 .marker {
   font-family: var(--font-heading);
@@ -137,12 +159,18 @@ section {
   border: none;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.2s, background 0.2s;
+  transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+  will-change: transform;
 }
 
 .btn:hover {
   background: var(--coral-deep);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(240, 119, 74, 0.4);
+}
+.btn:active {
+  transform: translateY(0);
+  transition-duration: 100ms;
 }
 
 .btn-primary,
@@ -162,6 +190,7 @@ section {
   padding: 4px 0;
   border-radius: 0;
   border-bottom: 1.5px solid var(--ink);
+  box-shadow: none;
 }
 .btn-outline:hover,
 .btn.link:hover {
@@ -169,14 +198,15 @@ section {
   border-color: var(--coral-deep);
   background: transparent;
   transform: none;
+  box-shadow: none;
 }
 
 .arrow {
-  transition: transform 0.2s;
+  transition: transform var(--dur-fast) var(--ease-out);
   display: inline-block;
 }
 .btn:hover .arrow {
-  transform: translateX(3px);
+  transform: translateX(4px);
 }
 
 /* ============================================
@@ -202,7 +232,7 @@ section {
 .prose a {
   color: var(--coral-deep);
   border-bottom: 1px solid var(--coral-soft);
-  transition: border-color 0.2s;
+  transition: border-color var(--dur-fast) var(--ease-out);
 }
 .prose a:hover {
   border-color: var(--coral-deep);
@@ -221,6 +251,56 @@ section {
 }
 
 /* ============================================
+   REVEAL ANIMATIONS
+   Éléments qui apparaissent au scroll.
+   Utilise IntersectionObserver côté JS (BaseLayout).
+   ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Variantes */
+.reveal.reveal-fade {
+  transform: none;
+}
+.reveal.reveal-left {
+  transform: translateX(-32px);
+}
+.reveal.reveal-left.is-in-view {
+  transform: translateX(0);
+}
+.reveal.reveal-right {
+  transform: translateX(32px);
+}
+.reveal.reveal-right.is-in-view {
+  transform: translateX(0);
+}
+.reveal.reveal-scale {
+  transform: scale(0.96);
+}
+.reveal.reveal-scale.is-in-view {
+  transform: scale(1);
+}
+
+/* Sur JS désactivé ou avant que l'observer boot : tout reste visible */
+html.no-js .reveal,
+html:not(.js) .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================
    REDUCED MOTION
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
@@ -229,5 +309,9 @@ section {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

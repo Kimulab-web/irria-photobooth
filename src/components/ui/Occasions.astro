@@ -4,19 +4,20 @@ import { occasions } from '../../data/villes';
 
 <section id="occasions">
   <div class="container">
-    <div class="occasions-head">
+    <div class="occasions-head reveal">
       <span class="marker">Occasions</span>
       <h2>Pour vos <span class="it">plus beaux</span> moments.</h2>
     </div>
+
     <div class="occ-list">
-      {occasions.map((occ) => (
-        <div class="occ">
-          <div class="occ-num">{occ.num}</div>
+      {occasions.map((occ, i) => (
+        <a class="occ reveal" href={occ.href} style={`--reveal-delay: ${i * 60}ms`}>
           <div class="occ-body">
             <h3>{occ.nom}</h3>
             <p>{occ.desc}</p>
           </div>
-        </div>
+          <span class="occ-arrow" aria-hidden="true">→</span>
+        </a>
       ))}
     </div>
   </div>
@@ -41,11 +42,15 @@ import { occasions } from '../../data/villes';
 
   .occ {
     display: grid;
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: 1fr auto;
     align-items: center;
     gap: 24px;
     padding: 30px 0;
     border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+    transition: padding-left 0.25s ease, background 0.25s ease;
+    cursor: pointer;
   }
 
   .occ:nth-child(odd) {
@@ -57,14 +62,11 @@ import { occasions } from '../../data/villes';
     padding-left: 40px;
   }
 
-  .occ-num {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-variation-settings: "SOFT" 100, "opsz" 9;
-    font-weight: 400;
-    font-size: 15px;
-    color: var(--coral-deep);
-    letter-spacing: 0.02em;
+  .occ:hover {
+    padding-left: 12px;
+  }
+  .occ:nth-child(even):hover {
+    padding-left: 52px;
   }
 
   .occ-body h3 {
@@ -73,6 +75,11 @@ import { occasions } from '../../data/villes';
     font-size: 26px;
     letter-spacing: -0.015em;
     margin: 0 0 6px;
+    transition: color 0.2s ease;
+  }
+
+  .occ:hover .occ-body h3 {
+    color: var(--coral-deep);
   }
 
   .occ-body p {
@@ -80,6 +87,27 @@ import { occasions } from '../../data/villes';
     font-size: 14.5px;
     line-height: 1.5;
     margin: 0;
+  }
+
+  .occ-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--cream);
+    color: var(--coral-deep);
+    font-size: 20px;
+    font-family: var(--font-heading);
+    flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, transform 0.25s;
+  }
+
+  .occ:hover .occ-arrow {
+    background: var(--coral);
+    color: var(--paper);
+    transform: translateX(4px);
   }
 
   @media (max-width: 720px) {
@@ -90,6 +118,10 @@ import { occasions } from '../../data/villes';
     .occ:nth-child(even) {
       padding: 24px 0;
       border-right: none;
+    }
+    .occ:hover,
+    .occ:nth-child(even):hover {
+      padding-left: 12px;
     }
   }
 </style>

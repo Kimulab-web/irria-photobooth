@@ -16,7 +16,7 @@ const {
 
 <section id="faq" class="faq-section">
   <div class="container">
-    <div class="faq-head">
+    <div class="faq-head reveal">
       <div>
         <span class="marker">Questions fréquentes</span>
         <h2>{title} <span class="it">{titleHighlight}</span>.</h2>
@@ -25,7 +25,7 @@ const {
     </div>
     <div class="faq">
       {faqs.map((faq, i) => (
-        <details open={i === 0}>
+        <details open={i === 0} class="reveal" style={`--reveal-delay: ${i * 80}ms`}>
           <summary>
             {faq.question}
             <span class="toggle">+</span>
@@ -66,10 +66,15 @@ const {
   .faq details {
     border-top: 1px solid var(--line);
     padding: 26px 0;
+    transition: padding-left 0.25s ease;
   }
 
   .faq details:last-child {
     border-bottom: 1px solid var(--line);
+  }
+
+  .faq details:hover {
+    padding-left: 12px;
   }
 
   .faq summary {
@@ -84,6 +89,11 @@ const {
     gap: 24px;
     align-items: center;
     color: var(--ink);
+    transition: color 0.2s ease;
+  }
+
+  .faq summary:hover {
+    color: var(--coral-deep);
   }
 
   .faq summary::-webkit-details-marker {
@@ -92,8 +102,8 @@ const {
 
   .faq summary .toggle {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     background: var(--cream);
     display: grid;
@@ -102,7 +112,7 @@ const {
     font-size: 20px;
     line-height: 1;
     color: var(--coral-deep);
-    transition: transform 0.25s, background 0.25s;
+    transition: transform 300ms var(--ease-out), background 300ms var(--ease-out), color 300ms var(--ease-out);
   }
 
   .faq details[open] summary .toggle {
@@ -117,6 +127,18 @@ const {
     font-size: 16px;
     max-width: 780px;
     line-height: 1.65;
+    animation: faqOpen 400ms var(--ease-out) both;
+  }
+
+  @keyframes faqOpen {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   @media (max-width: 900px) {

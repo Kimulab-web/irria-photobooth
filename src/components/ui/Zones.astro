@@ -12,15 +12,15 @@ const {
 
 <section id="zones" class="zones-band">
   <div class="container">
-    <div class="zones-head">
+    <div class="zones-head reveal">
       <span class="marker on-dark">Où nous intervenons</span>
       <h2>Toute la côte, l'intérieur, et <span class="it">au-delà</span>.</h2>
       {intro && <p>{intro}</p>}
     </div>
 
     <div class="zones-grid">
-      {zones.map((zone) => (
-        <div class="zone-block">
+      {zones.map((zone, i) => (
+        <div class="zone-block reveal" style={`--reveal-delay: ${i * 120}ms`}>
           <h3 class="zone-region">{zone.region}</h3>
           <ul class="zone-villes">
             {zone.villes.map((v) => <li>{v}</li>)}
@@ -29,7 +29,7 @@ const {
       ))}
     </div>
 
-    <p class="zones-note">Votre commune n'est pas listée ? Demandez, la plupart du temps c'est possible.</p>
+    <p class="zones-note reveal">Votre commune n'est pas listée ? Demandez, la plupart du temps c'est possible.</p>
   </div>
 </section>
 
@@ -112,7 +112,13 @@ const {
 
   .zone-villes li {
     color: var(--paper);
-    transition: color 0.2s;
+    transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+    cursor: default;
+  }
+
+  .zone-villes li:hover {
+    color: var(--coral);
+    transform: translateX(4px);
   }
 
   .zones-note {
@@ -135,7 +141,6 @@ const {
       border-bottom: 1px solid rgba(246, 233, 206, 0.12);
       padding-right: 0;
       padding-bottom: 24px;
-      margin-bottom: 0;
     }
     .zone-villes {
       grid-template-columns: 1fr 1fr !important;
