@@ -4,11 +4,6 @@ interface CtaLink {
   href: string;
 }
 
-interface Fact {
-  num: string;
-  label: string;
-}
-
 interface Props {
   eyebrow?: string;
   title: string;
@@ -20,7 +15,6 @@ interface Props {
   image?: string;
   imageAlt?: string;
   badge?: string;
-  facts?: Fact[];
 }
 
 const {
@@ -34,7 +28,6 @@ const {
   image = '/borne-hero.jpg',
   imageAlt = 'La borne photobooth Irria en pied avec sa lampe rétro et son trépied en bois',
   badge = '« On a adoré. »',
-  facts,
 } = Astro.props;
 ---
 
@@ -58,37 +51,25 @@ const {
       {badge && <span class="hero-badge">{badge}</span>}
     </div>
   </div>
-
-  {facts && facts.length > 0 && (
-    <div class="hero-facts">
-      {facts.map((f) => (
-        <div class="hero-fact">
-          <span class="hero-fact-num">{f.num}</span>
-          <span class="hero-fact-label">{f.label}</span>
-        </div>
-      ))}
-    </div>
-  )}
 </section>
 
 <style>
   .hero {
     position: relative;
-    padding: 60px 0 0;
+    padding: 60px 0 100px;
   }
 
   .hero-grid {
     display: grid;
     grid-template-columns: 1fr 0.85fr;
     gap: clamp(30px, 5vw, 70px);
-    align-items: end;
+    align-items: center;
     padding: 0 var(--gutter);
     max-width: 1400px;
     margin: 0 auto;
   }
 
   .hero-copy {
-    padding-bottom: 60px;
     max-width: 640px;
   }
 
@@ -172,70 +153,25 @@ const {
     box-shadow: 0 10px 25px -8px rgba(27, 18, 13, 0.25);
   }
 
-  .hero-facts {
-    display: flex;
-    gap: 40px;
-    padding: 40px var(--gutter) 0;
-    max-width: 1400px;
-    margin: 60px auto 0;
-    border-top: 1px solid var(--line);
-    flex-wrap: wrap;
-  }
-
-  .hero-fact {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .hero-fact-num {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-variation-settings: "SOFT" 100, "opsz" 144;
-    font-weight: 400;
-    font-size: 42px;
-    line-height: 1;
-    color: var(--coral-deep);
-    letter-spacing: -0.02em;
-  }
-
-  .hero-fact-label {
-    font-size: 13px;
-    color: var(--ink-soft);
-    letter-spacing: 0.02em;
-    max-width: 200px;
-  }
-
   @media (max-width: 960px) {
     .hero {
-      padding-top: 20px;
+      padding: 20px 0 60px;
     }
     .hero-grid {
       grid-template-columns: 1fr;
       gap: 40px;
       align-items: start;
     }
-    .hero-copy {
-      padding-bottom: 0;
-    }
     .hero-photo {
       max-width: 500px;
       margin: 0 auto;
       border-radius: 160px 160px 20px 20px;
-    }
-    .hero-facts {
-      gap: 24px;
-      padding-top: 32px;
-      margin-top: 40px;
     }
   }
 
   @media (max-width: 560px) {
     .hero-grid {
       padding: 0 20px;
-    }
-    .hero-facts {
-      padding: 32px 20px 0;
     }
     .hero h1 {
       font-size: 3rem;

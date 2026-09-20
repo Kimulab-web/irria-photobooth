@@ -8,15 +8,21 @@ interface Props {
 const { formule } = Astro.props;
 ---
 
-<article class={`formule ${formule.featured ? 'featured' : ''} ${formule.slug === 'autonome' ? 'zero' : ''}`} id={formule.slug}>
-  <div class="formule-count">{formule.count}</div>
-  <div class="formule-name">
+<article class={`formule ${formule.featured ? 'featured' : ''}`} id={formule.slug}>
+  <div class="formule-head">
     {formule.featured && <span class="badge">Le plus complet</span>}
-    {formule.nom}
-    <small>{formule.sousTitre}</small>
+    <h3 class="formule-name">{formule.nom}</h3>
+    <p class="formule-sub">{formule.sousTitre}</p>
   </div>
-  <div class="formule-desc">{formule.cible}</div>
-  <a href={`/contact/?formule=${formule.slug}`} class="cta">
+
+  <div class="formule-body">
+    <p class="formule-desc">{formule.cible}</p>
+    <ul class="formule-inclus">
+      {formule.inclus.map((item) => <li>{item}</li>)}
+    </ul>
+  </div>
+
+  <a href={`/contact/?formule=${formule.slug}`} class="formule-cta">
     Demander un devis <span class="arrow">→</span>
   </a>
 </article>
@@ -24,9 +30,9 @@ const { formule } = Astro.props;
 <style>
   .formule {
     display: grid;
-    grid-template-columns: 130px 1.2fr 1.4fr auto;
-    gap: 40px;
-    align-items: center;
+    grid-template-columns: 260px 1fr auto;
+    gap: 48px;
+    align-items: start;
     padding: 36px 0;
     border-top: 1px solid var(--line);
     transition: padding-left 0.25s;
@@ -38,71 +44,15 @@ const { formule } = Astro.props;
     padding-left: 12px;
   }
 
-  .formule-count {
-    font-family: var(--font-heading);
-    font-style: italic;
-    font-variation-settings: "SOFT" 100, "opsz" 144;
-    font-weight: 400;
-    font-size: 64px;
-    line-height: 1;
-    color: var(--coral-deep);
-    letter-spacing: -0.03em;
+  .formule-head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 
-  .formule.zero .formule-count {
-    font-size: 48px;
-    color: var(--ink-mute);
-  }
-
-  .formule-name {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 30px;
-    letter-spacing: -0.015em;
-    line-height: 1.05;
-  }
-
-  .formule-name small {
-    display: block;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin-top: 6px;
-    letter-spacing: 0;
-  }
-
-  .formule-desc {
-    color: var(--ink-soft);
-    font-size: 15px;
-    line-height: 1.5;
-  }
-
-  .formule.featured {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 44px 32px;
-    margin: 8px -32px;
-    border-radius: 24px;
-    border: none;
-  }
-  .formule.featured + .formule {
-    border-top: none;
-  }
-  .formule.featured .formule-count {
-    color: var(--coral);
-  }
-  .formule.featured .formule-name {
-    color: var(--paper);
-  }
-  .formule.featured .formule-name small {
-    color: var(--coral-soft);
-  }
-  .formule.featured .formule-desc {
-    color: rgba(246, 233, 206, 0.75);
-  }
-  .formule.featured .badge {
+  .badge {
     display: inline-block;
+    align-self: flex-start;
     background: var(--coral);
     color: var(--paper);
     padding: 4px 10px;
@@ -112,53 +62,134 @@ const { formule } = Astro.props;
     font-size: 11px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
   }
 
-  .formule .cta {
-    justify-self: end;
+  .formule-name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin: 0;
+  }
+
+  .formule-sub {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "opsz" 144;
+    font-weight: 400;
+    font-size: 20px;
+    color: var(--coral-deep);
+    margin: 0;
+  }
+
+  .formule-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .formule-desc {
+    color: var(--ink-soft);
+    font-size: 16px;
+    line-height: 1.55;
+    margin: 0;
+    max-width: 460px;
+  }
+
+  .formule-inclus {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 24px;
+  }
+
+  .formule-inclus li {
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.4;
+  }
+
+  .formule-inclus li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 14px;
+    height: 8px;
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12' fill='none'><path d='M2 3 Q 12 14, 22 3' stroke='%23C24E29' stroke-width='2.5' stroke-linecap='round'/></svg>") center/contain no-repeat;
+  }
+
+  .formule-cta {
     font-family: var(--font-heading);
     font-style: italic;
     font-variation-settings: "SOFT" 100, "opsz" 144;
     font-weight: 600;
     font-size: 17px;
+    color: var(--ink);
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding-bottom: 3px;
     border-bottom: 1.5px solid currentColor;
     transition: color 0.2s;
+    align-self: end;
+    white-space: nowrap;
   }
-  .formule .cta:hover {
+  .formule-cta:hover {
     color: var(--coral-deep);
   }
-  .formule.featured .cta:hover {
+  .formule-cta:hover .arrow {
+    transform: translateX(3px);
+  }
+
+  .formule.featured {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 44px 40px;
+    margin: 8px -32px;
+    border-radius: 24px;
+    border: none;
+  }
+  .formule.featured + .formule {
+    border-top: none;
+  }
+  .formule.featured .formule-name {
+    color: var(--paper);
+  }
+  .formule.featured .formule-sub {
     color: var(--coral-soft);
   }
-  .formule .cta:hover .arrow {
-    transform: translateX(3px);
+  .formule.featured .formule-desc,
+  .formule.featured .formule-inclus li {
+    color: rgba(246, 233, 206, 0.8);
+  }
+  .formule.featured .formule-inclus li::before {
+    background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12' fill='none'><path d='M2 3 Q 12 14, 22 3' stroke='%23F0774A' stroke-width='2.5' stroke-linecap='round'/></svg>") center/contain no-repeat;
+  }
+  .formule.featured .formule-cta {
+    color: var(--paper);
+  }
+  .formule.featured .formule-cta:hover {
+    color: var(--coral-soft);
   }
 
   @media (max-width: 900px) {
     .formule {
-      grid-template-columns: 90px 1fr;
-      gap: 20px 24px;
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
-    .formule .formule-desc {
-      grid-column: 2;
-    }
-    .formule .cta {
-      grid-column: 2;
+    .formule-cta {
       justify-self: start;
-    }
-    .formule-count {
-      font-size: 46px;
-    }
-    .formule.zero .formule-count {
-      font-size: 34px;
+      align-self: start;
     }
     .formule-name {
-      font-size: 24px;
+      font-size: 28px;
     }
     .formule.featured {
       padding: 32px 24px;
@@ -168,7 +199,9 @@ const { formule } = Astro.props;
   @media (max-width: 560px) {
     .formule.featured {
       margin: 8px -20px;
-      padding: 32px 20px;
+    }
+    .formule-inclus {
+      grid-template-columns: 1fr;
     }
   }
 </style>

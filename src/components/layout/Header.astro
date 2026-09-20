@@ -11,7 +11,7 @@ const navItems = [
 <header class="site-header">
   <div class="container site-header__inner">
     <a href="/" class="site-header__brand" aria-label="Irria Photobooth, accueil">
-      <img src="/logo-irria-coral.png" alt="Irria" class="site-header__logo" width="140" height="140" />
+      <img src="/logo-irria-coral.png" alt="Irria" class="site-header__logo" width="200" height="200" />
     </a>
 
     <button
@@ -53,7 +53,7 @@ const navItems = [
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-block: 14px;
+    padding-block: 10px;
     position: relative;
   }
 
@@ -63,7 +63,7 @@ const navItems = [
   }
 
   .site-header__logo {
-    height: 44px;
+    height: 72px;
     width: auto;
   }
 
@@ -123,6 +123,9 @@ const navItems = [
   }
 
   @media (max-width: 900px) {
+    .site-header__logo {
+      height: 56px;
+    }
     .site-header__toggle {
       display: flex;
     }
