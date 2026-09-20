@@ -1,8 +1,25 @@
 ---
 const steps = [
-  { num: 'I.', titre: 'On installe avant', desc: 'La borne arrive quelques heures avant, calée, testée, prête à sourire.' },
-  { num: 'II.', titre: 'Vous profitez pendant', desc: 'Vos invités déclenchent, choisissent, impriment. Rien à surveiller, rien à gérer.' },
-  { num: 'III.', titre: 'On récupère après', desc: 'Passage le lendemain ou en fin de soirée. Tous les tirages et les fichiers restent à vous.' },
+  {
+    num: 'I.',
+    titre: 'On échange',
+    desc: 'Un mail ou un coup de fil pour caler la date, le lieu et la formule. Réponse sous 24 heures.',
+  },
+  {
+    num: 'II.',
+    titre: 'On installe',
+    desc: 'La borne arrive quelques heures avant, calée, testée, prête à sourire.',
+  },
+  {
+    num: 'III.',
+    titre: 'Vous profitez',
+    desc: 'Vos invités déclenchent, choisissent, impriment. Rien à surveiller, rien à gérer.',
+  },
+  {
+    num: 'IV.',
+    titre: 'On récupère',
+    desc: 'Passage le lendemain ou en fin de soirée. Tous les tirages et les fichiers restent à vous.',
+  },
 ];
 ---
 
@@ -11,19 +28,25 @@ const steps = [
     <div class="method-head">
       <div>
         <span class="marker">Comment ça marche</span>
-        <h2>Trois temps, <span class="it">zéro stress</span>.</h2>
+        <h2>Quatre temps, <span class="it">zéro stress</span>.</h2>
       </div>
       <p>Une formule pensée pour les événements où vous voulez profiter, pas gérer un prestataire de plus le jour J.</p>
     </div>
-    <div class="acts">
-      {steps.map((s) => (
-        <div class="act">
-          <div class="act-num">{s.num}</div>
-          <h3>{s.titre}</h3>
-          <p>{s.desc}</p>
-        </div>
+
+    <ol class="frise" aria-label="Étapes de la prestation">
+      {steps.map((s, i) => (
+        <li class="frise-step">
+          <div class="frise-marker">
+            <span class="frise-num">{s.num}</span>
+            <span class="frise-dot" aria-hidden="true"></span>
+          </div>
+          <div class="frise-body">
+            <h3>{s.titre}</h3>
+            <p>{s.desc}</p>
+          </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>
 
@@ -32,7 +55,7 @@ const steps = [
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 60px;
-    margin-bottom: 70px;
+    margin-bottom: 80px;
     align-items: end;
   }
 
@@ -48,68 +71,141 @@ const steps = [
     margin: 0;
   }
 
-  .acts {
+  /* -------- La frise -------- */
+  .frise {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-    border-top: 1px solid var(--line);
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    position: relative;
   }
 
-  .act {
-    padding: 42px 32px 42px 0;
-    border-right: 1px solid var(--line);
+  /* Ligne horizontale qui relie les points */
+  .frise::before {
+    content: "";
+    position: absolute;
+    top: 26px;
+    left: 6%;
+    right: 6%;
+    height: 2px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--coral) 0 8px,
+      transparent 8px 18px
+    );
+    z-index: 0;
   }
 
-  .act:last-child {
-    border-right: none;
-    padding-right: 0;
+  .frise-step {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
   }
 
-  .act-num {
+  .frise-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+  }
+
+  .frise-num {
     font-family: var(--font-heading);
     font-style: italic;
     font-variation-settings: "SOFT" 100, "opsz" 144;
     font-weight: 400;
-    font-size: 84px;
+    font-size: 36px;
     color: var(--coral);
-    line-height: 0.9;
-    margin-bottom: 20px;
-    letter-spacing: -0.03em;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    padding-left: 4px;
   }
 
-  .act h3 {
-    font-size: 26px;
-    font-weight: 700;
-    margin: 0 0 12px;
+  .frise-dot {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 3px solid var(--coral);
+    margin-left: 8px;
+    box-shadow: 0 0 0 6px var(--paper);
+  }
+
+  .frise-body h3 {
     font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    margin: 0 0 8px;
   }
 
-  .act p {
+  .frise-body p {
     color: var(--ink-soft);
     font-size: 15px;
-    max-width: 300px;
+    line-height: 1.55;
     margin: 0;
+    max-width: 280px;
   }
 
-  @media (max-width: 900px) {
+  /* -------- Responsive -------- */
+  @media (max-width: 960px) {
     .method-head {
       grid-template-columns: 1fr;
       gap: 24px;
       align-items: start;
     }
-    .acts {
+    .frise {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px 32px;
+    }
+    .frise::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .frise {
       grid-template-columns: 1fr;
+      gap: 28px;
+      position: relative;
     }
-    .act {
-      border-right: none;
-      border-bottom: 1px solid var(--line);
-      padding: 32px 0;
+    .frise::before {
+      display: block;
+      top: 0;
+      bottom: 0;
+      left: 20px;
+      right: auto;
+      width: 2px;
+      height: auto;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--coral) 0 8px,
+        transparent 8px 18px
+      );
     }
-    .act:last-child {
-      border-bottom: none;
+    .frise-step {
+      flex-direction: row;
+      gap: 20px;
+      align-items: flex-start;
     }
-    .act-num {
-      font-size: 60px;
+    .frise-marker {
+      flex-shrink: 0;
+      width: 44px;
+      align-items: center;
+    }
+    .frise-num {
+      font-size: 26px;
+      padding: 0;
+    }
+    .frise-dot {
+      margin-left: 0;
     }
   }
 </style>
