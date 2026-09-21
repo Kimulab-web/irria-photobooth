@@ -76,7 +76,7 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   try {
     const { error } = await resend.emails.send({
       from: 'Irria Photobooth <contact@irria-photobooth.fr>',
-      to: 'contact@irria-photobooth.fr',
+      to: 'contact@kimulab.fr',
       replyTo: email,
       subject: `Nouvelle demande de devis — ${nom}`,
       text: lines.join('\n'),
