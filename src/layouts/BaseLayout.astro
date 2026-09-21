@@ -17,7 +17,7 @@ interface Props {
 const {
   title,
   description,
-  ogImage = '/logo-irria-coral.png',
+  ogImage = '/og-image.jpg',
   faqs,
   breadcrumbs,
 } = Astro.props;
@@ -32,7 +32,11 @@ const pageTitle = title.includes('Irria Photobooth') ? title : `${title} | Irria
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/logo-irria-coral.png" />
+    <meta name="theme-color" content="#F0774A" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonicalURL} />
 
     <title>{pageTitle}</title>
@@ -43,6 +47,8 @@ const pageTitle = title.includes('Irria Photobooth') ? title : `${title} | Irria
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="fr_FR" />
     <meta property="og:site_name" content="Irria Photobooth" />
 
@@ -63,7 +69,6 @@ const pageTitle = title.includes('Irria Photobooth') ? title : `${title} | Irria
     {breadcrumbs && breadcrumbs.length > 0 && <SchemaBreadcrumbList items={breadcrumbs} />}
 
     <script is:inline>
-      // Marque JS actif au plus tôt pour éviter le FOUC sur .reveal
       document.documentElement.classList.remove('no-js');
       document.documentElement.classList.add('js');
     </script>
@@ -76,10 +81,6 @@ const pageTitle = title.includes('Irria Photobooth') ? title : `${title} | Irria
     <Footer />
 
     <script>
-      /**
-       * Reveal on scroll — anime les éléments .reveal quand ils entrent
-       * dans le viewport. Respecte prefers-reduced-motion.
-       */
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const targets = document.querySelectorAll<HTMLElement>('.reveal');
 
@@ -95,14 +96,10 @@ const pageTitle = title.includes('Irria Photobooth') ? title : `${title} | Irria
               }
             }
           },
-          {
-            threshold: 0.12,
-            rootMargin: '0px 0px -8% 0px',
-          }
+          { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
         );
 
         targets.forEach((el) => {
-          // Si déjà visible au chargement (au-dessus de la ligne de flottaison), on affiche direct
           const rect = el.getBoundingClientRect();
           if (rect.top < window.innerHeight * 0.85) {
             el.classList.add('is-in-view');
