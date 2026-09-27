@@ -6,7 +6,11 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   site: 'https://irria-photobooth.fr',
   output: 'static',
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
   integrations: [mdx(), sitemap()],
   trailingSlash: 'always',
   env: {
