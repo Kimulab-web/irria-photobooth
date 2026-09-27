@@ -220,6 +220,20 @@ const typesEvenement = [
         }
 
         feedback.textContent = 'Merci, réponse sous 24 heures.';
+
+        // Track submission via GTM / dataLayer
+        try {
+          const formule = (form.querySelector<HTMLSelectElement>('#formule')?.value) || '';
+          const typeEvenement = (form.querySelector<HTMLSelectElement>('#typeEvenement')?.value) || '';
+          (window as any).dataLayer = (window as any).dataLayer || [];
+          (window as any).dataLayer.push({
+            event: 'contact_form_submit',
+            form_name: 'devis',
+            formule,
+            type_evenement: typeEvenement,
+          });
+        } catch {}
+
         form.reset();
       } catch (error) {
         feedback.textContent = error instanceof Error ? error.message : 'Une erreur est survenue.';
