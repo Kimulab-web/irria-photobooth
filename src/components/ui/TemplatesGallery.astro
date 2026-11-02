@@ -159,13 +159,15 @@ const templates = [
   }
   .fan-card.in:hover {
     z-index: 100;
+    /* Reste à sa position dans l'arc mais se redresse + grossit —
+       pas de translate au centre, sinon la carte quitte le curseur et flickr. */
     transform:
-      translate(-50%, -50%)
+      translate(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, 0px) - 12px))
       rotate(0deg)
-      scale(1.15);
+      scale(1.12);
     filter: brightness(1) saturate(1) !important;
     transition:
-      transform 500ms cubic-bezier(0.2, 0.9, 0.25, 1.2),
+      transform 400ms cubic-bezier(0.2, 0.9, 0.25, 1.1),
       filter 250ms var(--ease-out);
   }
   .fan-card.in:hover img {
