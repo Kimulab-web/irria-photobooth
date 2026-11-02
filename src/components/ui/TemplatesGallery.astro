@@ -1,12 +1,8 @@
 ---
 /**
- * Section Templates — pile scroll-révélée.
- * Les tirages apparaissent un à un, chacun se posant par-dessus les précédents,
- * pour former une pile fanée au centre.
- *
- * - Section haute (200vh) → donne de la "course" au scroll.
- * - Un wrapper sticky garde la pile centrée pendant qu'on scrolle.
- * - Chaque tirage a sa propre spy-marker qui déclenche sa venue.
+ * Section Templates — pile qui se construit automatiquement quand la section
+ * entre dans le viewport. Pas de scroll-driven : juste un IntersectionObserver
+ * qui déclenche la séquence une fois.
  */
 
 const templates = [
@@ -27,25 +23,18 @@ const templates = [
     <p>Vos couleurs, vos prénoms, votre date, votre logo. Chaque tirage devient un souvenir signé, qu'on garde bien plus longtemps que le gâteau.</p>
   </div>
 
-  <div class="pile-stage" aria-hidden="false">
-    <div class="pile-sticky">
-      <div class="pile">
-        {templates.map((t, i) => (
-          <figure
-            class="pile-item"
-            data-index={i}
-            style={`--i: ${i}; --tilt: ${t.tilt}deg; --x: ${t.x}px; --y: ${t.y}px; --z: ${i};`}
-          >
-            <img src={t.src} alt={t.alt} loading="lazy" />
-          </figure>
-        ))}
-      </div>
+  <div class="pile-wrap">
+    <div class="pile">
+      {templates.map((t, i) => (
+        <figure
+          class="pile-item"
+          data-index={i}
+          style={`--i: ${i}; --tilt: ${t.tilt}deg; --x: ${t.x}px; --y: ${t.y}px; --z: ${i};`}
+        >
+          <img src={t.src} alt={t.alt} loading="lazy" />
+        </figure>
+      ))}
     </div>
-
-    {/* Spy markers — un par tirage, répartis sur la hauteur du stage */}
-    {templates.map((_, i) => (
-      <div class="spy" data-spy={i} aria-hidden="true"></div>
-    ))}
   </div>
 </section>
 
@@ -54,10 +43,9 @@ const templates = [
     background: var(--cream-pale);
     position: relative;
     overflow: hidden;
-    padding-block: clamp(72px, 9vw, 120px) 0;
+    padding-block: clamp(72px, 9vw, 120px);
   }
 
-  /* Ornements corail */
   .templates-band::before,
   .templates-band::after {
     content: "";
@@ -92,56 +80,52 @@ const templates = [
     margin-inline: auto;
   }
 
-  /* ---------- Pile stage ---------- */
-  .pile-stage {
+  /* ---------- Pile ---------- */
+  .pile-wrap {
     position: relative;
-    /* Course de scroll : 180vh = 1.8 écran de scroll pour parcourir toute la pile */
-    height: 180vh;
+    z-index: 1;
     margin-top: clamp(40px, 6vw, 80px);
-  }
-
-  .pile-sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
     display: grid;
     place-items: center;
-    overflow: visible;
+    min-height: min(640px, 80vh);
+    padding-block: 40px;
   }
 
   .pile {
     position: relative;
     width: min(70vw, 420px);
     aspect-ratio: 1 / 1;
+    display: grid;
+    place-items: center;
   }
 
   .pile-item {
     position: absolute;
-    inset: 0;
-    margin: auto;
+    top: 50%;
+    left: 50%;
+    margin: 0;
     z-index: var(--z, 1);
     width: 100%;
-    max-width: 100%;
     display: grid;
     place-items: center;
 
-    /* État initial : sous l'écran, inclinée, invisible */
+    /* État initial : sous l'écran, inclinée, réduite, invisible */
     opacity: 0;
     transform:
-      translate(0, 60vh)
+      translate(-50%, calc(-50% + 80px))
       rotate(calc(var(--tilt, 0deg) * 3))
-      scale(0.6);
+      scale(0.75);
 
     transition:
-      opacity 700ms var(--ease-out),
-      transform 900ms var(--ease-out);
+      opacity 650ms var(--ease-out),
+      transform 750ms var(--ease-out);
     will-change: transform, opacity;
   }
 
   .pile-item.in {
     opacity: 1;
     transform:
-      translate(var(--x, 0), var(--y, 0))
+      translate(calc(-50% + var(--x, 0)), calc(-50% + var(--y, 0)))
       rotate(var(--tilt, 0deg))
       scale(1);
   }
@@ -149,7 +133,7 @@ const templates = [
   .pile-item img {
     display: block;
     max-width: 100%;
-    max-height: 70vh;
+    max-height: 60vh;
     width: auto;
     height: auto;
     border-radius: 6px;
@@ -158,33 +142,9 @@ const templates = [
       0 32px 60px -24px rgba(27, 18, 13, 0.4);
   }
 
-  /* Spy markers — invisibles mais déclenchent le reveal au scroll */
-  .spy {
-    position: absolute;
-    left: 0; right: 0;
-    width: 100%;
-    height: 1px;
-    pointer-events: none;
-  }
-  /* Répartis sur toute la hauteur du stage, échelonnés */
-  .spy[data-spy="0"] { top: 10%; }
-  .spy[data-spy="1"] { top: 22%; }
-  .spy[data-spy="2"] { top: 34%; }
-  .spy[data-spy="3"] { top: 46%; }
-  .spy[data-spy="4"] { top: 58%; }
-  .spy[data-spy="5"] { top: 70%; }
-  .spy[data-spy="6"] { top: 82%; }
-
-  /* ---------- Reduced motion ---------- */
   @media (prefers-reduced-motion: reduce) {
-    .pile-stage {
-      height: auto;
-      margin-top: 40px;
-    }
-    .pile-sticky {
-      position: static;
-      height: auto;
-      padding-block: 40px;
+    .pile-wrap {
+      min-height: auto;
     }
     .pile {
       aspect-ratio: auto;
@@ -203,57 +163,48 @@ const templates = [
       width: auto;
       max-width: 280px;
     }
-    .spy { display: none; }
   }
 
-  /* ---------- Mobile ---------- */
   @media (max-width: 720px) {
-    .pile-stage {
-      height: 160vh;
+    .pile-wrap {
+      min-height: 70vh;
     }
     .pile {
-      width: min(78vw, 320px);
+      width: min(80vw, 320px);
     }
     .pile-item img {
-      max-height: 60vh;
+      max-height: 55vh;
     }
   }
 </style>
 
 <script>
   /**
-   * Révèle les tirages un par un quand chaque spy entre dans le viewport
-   * (en se concentrant sur le milieu vertical pour une sensation "pile qui monte").
+   * Quand la pile entre dans le viewport, chaque tirage apparaît un par un
+   * (stagger de 350ms), se posant par-dessus les précédents.
    */
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pile = document.querySelector<HTMLElement>('.pile');
   const items = document.querySelectorAll<HTMLElement>('.pile-item');
-  const spies = document.querySelectorAll<HTMLElement>('.spy[data-spy]');
 
-  if (prefersReduced) {
+  if (!pile || !items.length) {
+    // noop
+  } else if (prefersReduced || !('IntersectionObserver' in window)) {
     items.forEach((it) => it.classList.add('in'));
-  } else if ('IntersectionObserver' in window) {
+  } else {
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            const idx = parseInt(
-              (entry.target as HTMLElement).dataset.spy ?? '0',
-              10,
-            );
-            const target = items[idx];
-            if (target) target.classList.add('in');
+            items.forEach((item, i) => {
+              setTimeout(() => item.classList.add('in'), i * 350);
+            });
             observer.unobserve(entry.target);
           }
         }
       },
-      {
-        /* On déclenche quand le spy atteint le milieu du viewport */
-        rootMargin: '-50% 0px -40% 0px',
-        threshold: 0,
-      },
+      { threshold: 0.3 },
     );
-    spies.forEach((spy) => observer.observe(spy));
-  } else {
-    items.forEach((it) => it.classList.add('in'));
+    observer.observe(pile);
   }
 </script>
