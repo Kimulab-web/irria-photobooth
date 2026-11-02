@@ -45,12 +45,12 @@ if (!entry) throw new Error('Contenu manquant : src/content/pages/home.mdx');
   {/* D — DÉSIR : l'offre, les cas d'usage, la présence territoriale */}
   <FormulesSection />
   <TemplatesGallery />
+  <ReviewsSection />
   <Occasions />
   <Marquee />
 
   {/* A — ACTION : rassurance géographique, objections, conversion */}
   <Zones />
-  <ReviewsSection />
 
   {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
 
