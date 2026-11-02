@@ -1,0 +1,210 @@
+---
+/**
+ * Section mosaïque éditoriale des templates personnalisés.
+ * - Les tirages sont tiltés (rotation subtile) et révélés au scroll.
+ * - Au hover : le tirage se redresse, se soulève, remonte en z-index.
+ * - Mobile : stack vertical sans rotation.
+ */
+
+const templates = [
+  { src: '/templates/template-04.jpg', alt: 'Template Atlas Padel — groupe', tilt: -3.5, flex: 2.4 },
+  { src: '/templates/template-01.jpg', alt: 'Template Steph 40 ans — mini-strip', tilt: 2.5, flex: 1.3 },
+  { src: '/templates/template-03.jpg', alt: 'Template Atlas Padel — strip 3 photos', tilt: -2, flex: 0.9 },
+  { src: '/templates/template-06.jpg', alt: 'Template Mélina & David — portrait', tilt: 3, flex: 1.3 },
+  { src: '/templates/template-05.jpg', alt: 'Template Atlas Padel — trio', tilt: -2.5, flex: 0.9 },
+  { src: '/templates/template-02.jpg', alt: 'Template Steph 40 ans — portrait', tilt: 3.5, flex: 0.9 },
+  { src: '/templates/template-07.jpg', alt: 'Template Mélina & David — strip', tilt: -3, flex: 0.9 },
+];
+---
+
+<section id="templates" class="templates-band">
+  <div class="container">
+    <div class="templates-head reveal">
+      <span class="marker">Exemples</span>
+      <h2>Un template personnalisé pour <span class="it">chaque événement</span>.</h2>
+      <p>Vos couleurs, vos prénoms, votre date, votre logo. Chaque tirage devient un souvenir signé, qu'on garde bien plus longtemps que le gâteau.</p>
+    </div>
+
+    <div class="templates-grid">
+      {templates.map((t, i) => (
+        <figure
+          class="template reveal"
+          style={`--tilt: ${t.tilt}deg; --flex: ${t.flex}; --reveal-delay: ${i * 100}ms`}
+        >
+          <img src={t.src} alt={t.alt} loading="lazy" />
+        </figure>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .templates-band {
+    background: var(--cream-pale);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Ornements corail en coin pour casser l'uniformité */
+  .templates-band::before,
+  .templates-band::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240, 119, 74, 0.18) 0%, transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .templates-band::before {
+    top: -80px;
+    left: -80px;
+  }
+  .templates-band::after {
+    bottom: -100px;
+    right: -80px;
+  }
+
+  .container { position: relative; z-index: 1; }
+
+  .templates-head {
+    max-width: 760px;
+    margin-bottom: 70px;
+    text-align: center;
+    margin-inline: auto;
+  }
+  .templates-head .marker {
+    margin-bottom: 24px;
+    justify-content: center;
+  }
+  .templates-head h2 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin-bottom: 20px;
+  }
+  .templates-head h2 .it {
+    color: var(--coral-deep);
+    font-weight: 400;
+  }
+  .templates-head p {
+    color: var(--ink-soft);
+    font-size: 18px;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  /* ---------- La mosaïque ---------- */
+  .templates-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(28px, 4vw, 56px);
+    justify-content: center;
+    align-items: center;
+    padding-block: 32px;
+  }
+
+  .template {
+    flex: var(--flex, 1) 1 240px;
+    max-width: 420px;
+    margin: 0;
+    position: relative;
+    transform: rotate(var(--tilt, 0deg));
+    transform-origin: center center;
+    transition:
+      transform 500ms var(--ease-out),
+      box-shadow 400ms var(--ease-out),
+      z-index 0ms linear 300ms;
+    cursor: pointer;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  .template img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow:
+      0 10px 20px -8px rgba(27, 18, 13, 0.25),
+      0 24px 48px -20px rgba(27, 18, 13, 0.3);
+    transition: box-shadow 400ms var(--ease-out);
+  }
+
+  /* Hover : redressement + élévation + z-index au-dessus */
+  .template:hover {
+    transform: rotate(0deg) scale(1.06) translateY(-10px);
+    z-index: 10;
+    transition:
+      transform 450ms var(--ease-out),
+      box-shadow 400ms var(--ease-out),
+      z-index 0ms linear;
+  }
+  .template:hover img {
+    box-shadow:
+      0 20px 30px -10px rgba(27, 18, 13, 0.35),
+      0 40px 80px -20px rgba(27, 18, 13, 0.45);
+  }
+
+  /* Reveal : fade + translate + rotate depuis 0deg vers la rotation finale */
+  .template.reveal {
+    opacity: 0;
+    transform: rotate(0deg) translateY(40px) scale(0.92);
+    transition:
+      opacity 800ms var(--ease-out),
+      transform 900ms var(--ease-out);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+  .template.reveal.is-in-view {
+    opacity: 1;
+    transform: rotate(var(--tilt, 0deg)) translateY(0) scale(1);
+  }
+
+  /* Petit float idle très discret, désactivé au hover */
+  @keyframes templateFloat {
+    0%, 100% { transform: rotate(var(--tilt, 0deg)) translateY(0); }
+    50% { transform: rotate(calc(var(--tilt, 0deg) + 0.3deg)) translateY(-4px); }
+  }
+  .template.reveal.is-in-view {
+    animation: templateFloat 8s ease-in-out infinite;
+    animation-delay: calc(var(--reveal-delay, 0ms) + 1200ms);
+  }
+  .template.reveal.is-in-view:hover {
+    animation: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .template.reveal.is-in-view {
+      animation: none;
+    }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px) {
+    .templates-grid {
+      gap: 40px;
+    }
+    .template {
+      flex: 1 1 300px;
+      max-width: 360px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .templates-grid {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 32px;
+    }
+    .template {
+      max-width: 100%;
+      transform: rotate(0deg) !important;
+      animation: none !important;
+    }
+    .template.reveal.is-in-view {
+      transform: rotate(0deg) translateY(0) scale(1) !important;
+    }
+    .template:hover {
+      transform: rotate(0deg) scale(1.02) translateY(-4px) !important;
+    }
+  }
+</style>
