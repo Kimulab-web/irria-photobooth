@@ -17,6 +17,7 @@ import Occasions from '../components/ui/Occasions.astro';
 import Marquee from '../components/ui/Marquee.astro';
 import Zones from '../components/ui/Zones.astro';
 import ReviewsSection from '../components/ui/ReviewsSection.astro';
+import LatestArticles from '../components/ui/LatestArticles.astro';
 import Faq from '../components/ui/Faq.astro';
 import CtaBanner from '../components/ui/CtaBanner.astro';
 
@@ -51,6 +52,7 @@ if (!entry) throw new Error('Contenu manquant : src/content/pages/home.mdx');
 
   {/* A — ACTION : rassurance géographique, objections, conversion */}
   <Zones />
+  <LatestArticles />
 
   {entry.data.faqs && entry.data.faqs.length > 0 && <Faq faqs={entry.data.faqs} />}
 

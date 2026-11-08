@@ -1,0 +1,193 @@
+---
+/**
+ * Section "Nos derniers articles" — cartes des 3 articles de blog les plus récents.
+ * Masquée si aucun article publié. Lien "Voir tous les articles" vers /blog/.
+ */
+import { getCollection } from 'astro:content';
+
+const articles = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .slice(0, 3);
+
+const formatFr = (d: Date) =>
+  d.toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+{articles.length > 0 && (
+  <section id="articles" class="latest-band">
+    <div class="container latest-head reveal">
+      <span class="marker">Journal</span>
+      <h2>Nos derniers <span class="it">articles</span>.</h2>
+      <p>Guides, lieux et inspirations pour organiser votre événement au Pays Basque.</p>
+    </div>
+
+    <div class="container latest-grid reveal">
+      {articles.map((a) => (
+        <a href={`/blog/${a.id.replace(/\.mdx$/, '')}/`} class="latest-card">
+          {a.data.cover && (
+            <div class="latest-card-cover">
+              <img src={a.data.cover} alt={a.data.coverAlt ?? ''} loading="lazy" />
+            </div>
+          )}
+          <div class="latest-card-body">
+            {a.data.eyebrow && <span class="eyebrow">{a.data.eyebrow}</span>}
+            <h3>{a.data.h1}</h3>
+            <p class="excerpt">{a.data.description}</p>
+            <div class="meta">
+              <time datetime={a.data.publishedAt.toISOString()}>{formatFr(a.data.publishedAt)}</time>
+              <span class="arrow">Lire →</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="container latest-footer reveal">
+      <a href="/blog/" class="latest-cta">
+        Voir tous les articles
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 17L17 7M17 7H8M17 7V16"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+)}
+
+<style>
+  .latest-band {
+    background: var(--cream-pale);
+    padding-block: clamp(72px, 9vw, 120px);
+  }
+
+  .latest-head {
+    max-width: 760px;
+    margin-inline: auto;
+    text-align: center;
+    margin-bottom: 56px;
+  }
+  .latest-head .marker { margin-bottom: 24px; justify-content: center; }
+  .latest-head h2 {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin-bottom: 20px;
+  }
+  .latest-head h2 .it { color: var(--coral-deep); font-weight: 400; }
+  .latest-head p {
+    color: var(--ink-soft);
+    font-size: 18px;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+
+  .latest-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+    max-width: 1100px;
+    margin-inline: auto;
+  }
+
+  .latest-card {
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+      0 1px 2px rgba(27, 18, 13, 0.06),
+      0 10px 24px -14px rgba(27, 18, 13, 0.12);
+    transition: transform 220ms var(--ease-out), box-shadow 220ms var(--ease-out);
+  }
+  .latest-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 2px 4px rgba(27, 18, 13, 0.08),
+      0 20px 48px -16px rgba(27, 18, 13, 0.2);
+  }
+
+  .latest-card-cover {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--cream);
+  }
+  .latest-card-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 600ms var(--ease-out);
+  }
+  .latest-card:hover .latest-card-cover img { transform: scale(1.04); }
+
+  .latest-card-body {
+    padding: 24px 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+  .latest-card-body .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    color: var(--coral-deep);
+    font-weight: 600;
+  }
+  .latest-card-body h3 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    line-height: 1.25;
+    margin: 0;
+    color: var(--ink);
+  }
+  .latest-card-body .excerpt {
+    color: var(--ink-soft);
+    font-size: 14.5px;
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .latest-card-body .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-mute);
+    margin-top: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+  .latest-card-body .meta .arrow {
+    color: var(--coral-deep);
+    font-weight: 600;
+  }
+
+  .latest-footer {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .latest-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    background: transparent;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background 200ms, color 200ms, transform 200ms;
+  }
+  .latest-cta:hover {
+    background: var(--ink);
+    color: var(--cream-pale);
+    transform: translateY(-2px);
+  }
+  .latest-cta:hover svg { stroke: var(--cream-pale); }
+</style>
