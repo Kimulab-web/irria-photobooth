@@ -1,0 +1,184 @@
+---
+/**
+ * Fiche d'un lieu de mariage dans l'article "Où se marier au Pays Basque".
+ * Affiche photo + nom + commune + 3 métriques (réception, couchages, prix) + description + lien site.
+ * Les images externes sont utilisées en attendant que les lieux fournissent leurs photos ou qu'on les héberge en local.
+ */
+interface Props {
+  name: string;
+  location: string;       // ex: "Urrugne (64)"
+  reception: string;      // ex: "jusqu'à 250 convives"
+  couchages: string;      // ex: "52 couchages (26 chambres)"
+  price: string;          // ex: "Sur devis" ou "2 200 € le week-end"
+  website: string;
+  photo?: string;         // URL absolue
+  photoAlt?: string;
+}
+
+const {
+  name,
+  location,
+  reception,
+  couchages,
+  price,
+  website,
+  photo,
+  photoAlt,
+} = Astro.props;
+---
+
+<article class="venue-card">
+  {photo && (
+    <div class="venue-photo">
+      <img src={photo} alt={photoAlt ?? `Lieu de mariage ${name}`} loading="lazy" referrerpolicy="no-referrer" />
+    </div>
+  )}
+  <div class="venue-body">
+    <header>
+      <h3>{name}</h3>
+      <p class="venue-loc">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>
+          <circle cx="12" cy="9" r="2.5"/>
+        </svg>
+        {location}
+      </p>
+    </header>
+    <dl class="venue-stats">
+      <div>
+        <dt>Réception</dt>
+        <dd>{reception}</dd>
+      </div>
+      <div>
+        <dt>Couchages</dt>
+        <dd>{couchages}</dd>
+      </div>
+      <div>
+        <dt>Prix</dt>
+        <dd>{price}</dd>
+      </div>
+    </dl>
+    <div class="venue-desc">
+      <slot />
+    </div>
+    <a href={website} target="_blank" rel="noopener noreferrer" class="venue-link">
+      Visiter le site →
+    </a>
+  </div>
+</article>
+
+<style>
+  .venue-card {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow:
+      0 1px 2px rgba(27, 18, 13, 0.05),
+      0 10px 28px -14px rgba(27, 18, 13, 0.12);
+    margin: 32px 0;
+    align-items: start;
+  }
+
+  .venue-photo {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--cream);
+  }
+  .venue-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .venue-body header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    margin: 0 0 6px;
+    color: var(--ink);
+  }
+  .venue-loc {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--coral-deep);
+    font-size: 14px;
+    margin: 0 0 20px;
+  }
+  .venue-loc svg { stroke: var(--coral-deep); }
+
+  .venue-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 0 0 20px;
+    padding: 14px 16px;
+    background: var(--cream-pale);
+    border-radius: 8px;
+  }
+  .venue-stats div { min-width: 0; }
+  .venue-stats dt {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-mute);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .venue-stats dd {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.35;
+    font-weight: 500;
+  }
+
+  .venue-desc :global(p) {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    margin-bottom: 16px;
+  }
+  .venue-desc :global(p:last-of-type) { margin-bottom: 20px; }
+
+  .venue-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--coral-deep);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--coral-deep);
+    transition: color 180ms ease, border-color 180ms ease;
+  }
+  .venue-link:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  @media (max-width: 720px) {
+    .venue-card {
+      grid-template-columns: 1fr;
+      padding: 18px;
+      gap: 20px;
+    }
+    .venue-photo { aspect-ratio: 16 / 10; }
+    .venue-stats {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .venue-stats div {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .venue-stats dt { margin: 0; }
+  }
+</style>
