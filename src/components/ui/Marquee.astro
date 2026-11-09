@@ -1,19 +1,21 @@
 ---
+import type { Ville } from '../../data/villes';
+
 interface Props {
-  items?: string[];
+  items?: Ville[];
 }
 
-const defaultItems = [
-  'Bayonne',
-  'Biarritz',
-  'Saint-Jean-de-Luz',
-  'Anglet',
-  'Hendaye',
-  'Hasparren',
-  'Cambo',
-  'Espelette',
-  'Dax',
-  'Pau',
+const defaultItems: Ville[] = [
+  { nom: 'Bayonne' },
+  { nom: 'Biarritz', href: '/location-photobooth-biarritz/' },
+  { nom: 'Saint-Jean-de-Luz' },
+  { nom: 'Anglet' },
+  { nom: 'Hendaye' },
+  { nom: 'Hasparren' },
+  { nom: 'Cambo' },
+  { nom: 'Espelette' },
+  { nom: 'Dax' },
+  { nom: 'Pau' },
 ];
 
 const { items = defaultItems } = Astro.props;
@@ -22,7 +24,11 @@ const doubled = [...items, ...items];
 
 <div class="marquee" aria-hidden="true">
   <div class="marquee-track">
-    {doubled.map((item) => <span class="marquee-item">{item}</span>)}
+    {doubled.map((item) => (
+      item.href
+        ? <a href={item.href} class="marquee-item marquee-item--link">{item.nom}</a>
+        : <span class="marquee-item">{item.nom}</span>
+    ))}
   </div>
 </div>
 
@@ -68,5 +74,13 @@ const doubled = [...items, ...items];
 
   @media (prefers-reduced-motion: reduce) {
     .marquee-track { animation: none; }
+  }
+  .marquee-item--link {
+    color: inherit;
+    text-decoration: none;
+    transition: color 180ms ease;
+  }
+  .marquee-item--link:hover {
+    color: var(--coral);
   }
 </style>

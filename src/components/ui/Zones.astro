@@ -23,7 +23,11 @@ const {
         <div class="zone-block reveal" style={`--reveal-delay: ${i * 120}ms`}>
           <h3 class="zone-region">{zone.region}</h3>
           <ul class="zone-villes">
-            {zone.villes.map((v) => <li>{v}</li>)}
+            {zone.villes.map((v) => (
+              <li>
+                {v.href ? <a href={v.href}>{v.nom}</a> : v.nom}
+              </li>
+            ))}
           </ul>
         </div>
       ))}
@@ -151,5 +155,15 @@ const {
     .zone-villes {
       grid-template-columns: 1fr !important;
     }
+  }
+  .zone-villes a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(246, 233, 206, 0.4);
+    transition: color 180ms ease, border-color 180ms ease;
+  }
+  .zone-villes a:hover {
+    color: var(--coral);
+    border-bottom-color: var(--coral);
   }
 </style>

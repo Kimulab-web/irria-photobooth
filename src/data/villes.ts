@@ -3,37 +3,45 @@
  * Utilisé pour le SEO local, le footer et le schema LocalBusiness.
  */
 
-export const zones = [
+export interface Ville {
+  nom: string;
+  href?: string;
+}
+
+export const zones: { region: string; villes: Ville[] }[] = [
   {
     region: 'Pays Basque',
     villes: [
-      'Bayonne',
-      'Biarritz',
-      'Anglet',
-      'Saint-Jean-de-Luz',
-      'Hendaye',
-      'Hasparren',
-      'Cambo-les-Bains',
-      'Ustaritz',
-      'Saint-Pée-sur-Nivelle',
-      'Saint-Jean-Pied-de-Port',
-      'Espelette',
-      'Ainhoa',
-      'Sare',
+      { nom: 'Bayonne' },
+      { nom: 'Biarritz', href: '/location-photobooth-biarritz/' },
+      { nom: 'Anglet' },
+      { nom: 'Saint-Jean-de-Luz' },
+      { nom: 'Hendaye' },
+      { nom: 'Hasparren' },
+      { nom: 'Cambo-les-Bains' },
+      { nom: 'Ustaritz' },
+      { nom: 'Saint-Pée-sur-Nivelle' },
+      { nom: 'Saint-Jean-Pied-de-Port' },
+      { nom: 'Espelette' },
+      { nom: 'Ainhoa' },
+      { nom: 'Sare' },
     ],
   },
   {
     region: 'Landes',
-    villes: ['Dax', 'Hossegor', 'Capbreton', 'Soustons'],
+    villes: [{ nom: 'Dax' }, { nom: 'Hossegor' }, { nom: 'Capbreton' }, { nom: 'Soustons' }],
   },
   {
     region: 'Béarn',
-    villes: ['Pau'],
+    villes: [{ nom: 'Pau' }],
   },
 ];
 
-// Liste plate pour le footer / schema
-export const villes = zones.flatMap((z) => z.villes);
+// Liste plate pour le footer / schema (noms seuls)
+export const villes = zones.flatMap((z) => z.villes.map((v) => v.nom));
+
+// Liste plate avec liens (pour Marquee / Zones)
+export const villesAvecLiens = zones.flatMap((z) => z.villes);
 
 export interface Occasion {
   slug: string;
