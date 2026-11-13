@@ -1,0 +1,115 @@
+---
+/**
+ * "Comment ça marche" — 3 étapes visuelles pour la page Livre d'or vidéo.
+ * Chiffre géant en coral, titre, courte description.
+ */
+const steps = [
+  {
+    num: '01',
+    title: 'Même borne, même design',
+    body: "La borne au bois vintage qui fait votre photobooth est activée en mode vidéo. Pas de deuxième prestataire, pas de deuxième emplacement.",
+    icon: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M23 7l-7 5 7 5V7z',
+  },
+  {
+    num: '02',
+    title: 'Vos invités enregistrent, sans guide',
+    body: "L'écran les accompagne. Un bouton pour démarrer, compte à rebours de 3 secondes, puis 30 secondes pour dire ce qu'ils ont envie de dire.",
+    icon: 'M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z M19 10v2a7 7 0 0 1-14 0v-2 M12 19v4 M8 23h8',
+  },
+  {
+    num: '03',
+    title: 'Vous recevez tout après l\'événement',
+    body: "Vidéos brutes sous 48 heures ou montage best-of de 3 à 5 minutes sous 10 à 14 jours, selon la formule choisie.",
+    icon: 'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4 M7 10l5 5 5-5 M12 15V3',
+  },
+];
+---
+
+<div class="ldv-steps">
+  {steps.map((s) => (
+    <article class="ldv-step">
+      <div class="ldv-step-num">{s.num}</div>
+      <div class="ldv-step-body">
+        <div class="ldv-step-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d={s.icon}/>
+          </svg>
+        </div>
+        <h3>{s.title}</h3>
+        <p>{s.body}</p>
+      </div>
+    </article>
+  ))}
+</div>
+
+<style>
+  .ldv-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 40px 0 48px;
+  }
+
+  .ldv-step {
+    position: relative;
+    padding: 32px 26px 28px;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow:
+      0 1px 2px rgba(27, 18, 13, 0.04),
+      0 14px 32px -18px rgba(27, 18, 13, 0.14);
+    overflow: hidden;
+  }
+
+  .ldv-step-num {
+    position: absolute;
+    top: -8px;
+    right: 18px;
+    font-family: var(--font-heading);
+    font-size: 5.5rem;
+    font-weight: 400;
+    color: var(--coral-soft);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.04em;
+  }
+
+  .ldv-step-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--cream-pale);
+    color: var(--coral-deep);
+    display: grid;
+    place-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .ldv-step-body {
+    position: relative;
+    z-index: 1;
+  }
+  .ldv-step h3 {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    line-height: 1.3;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .ldv-step p {
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+    color: var(--ink-soft);
+    margin: 0 !important;
+  }
+
+  @media (max-width: 860px) {
+    .ldv-steps { grid-template-columns: 1fr; gap: 16px; }
+    .ldv-step { padding: 28px 24px 24px; }
+    .ldv-step-num { font-size: 4.5rem; top: -4px; right: 14px; }
+  }
+</style>
