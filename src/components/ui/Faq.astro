@@ -30,7 +30,7 @@ const {
             {faq.question}
             <span class="toggle">+</span>
           </summary>
-          <p>{faq.answer}</p>
+          <p set:html={faq.answer}></p>
         </details>
       ))}
     </div>
