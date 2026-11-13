@@ -19,6 +19,7 @@ interface Props {
   ctaHighlight?: string;
   ctaSubtitle?: string;
   showFormules?: boolean;
+  wideContent?: boolean;
 }
 
 const {
@@ -34,6 +35,7 @@ const {
   ctaHighlight = 'bloque',
   ctaSubtitle = 'Dites-nous la date, le lieu et l\'occasion. Réponse sous 24 heures.',
   showFormules = true,
+  wideContent = false,
 } = Astro.props;
 
 const entry = await getEntry('pages', slug);
@@ -62,7 +64,7 @@ const breadcrumbs = [
   />
 
   <section class="container prose-section">
-    <div class="prose">
+    <div class={wideContent ? "prose prose--wide" : "prose"}>
       <Content />
     </div>
   </section>

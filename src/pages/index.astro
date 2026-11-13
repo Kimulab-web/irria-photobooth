@@ -1,10 +1,10 @@
 ---
 /**
  * Page d'accueil structurée selon la méthode AIDA :
- *  A — Attention  : Hero (headline arrête-scroll, promesse claire)
- *  I — Intérêt    : Comment ça marche + À propos (l'objet, l'histoire)
- *  D — Désir      : Formules + Occasions + Marquee villes (l'offre et où)
- *  A — Action     : Zones + FAQ + CTA finale
+ *  A, Attention  : Hero (headline arrête-scroll, promesse claire)
+ *  I, Intérêt    : Comment ça marche + À propos (l'objet, l'histoire)
+ *  D, Désir      : Formules + Occasions + Marquee villes (l'offre et où)
+ *  A, Action     : Zones + FAQ + CTA finale
  */
 import { getEntry } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -31,26 +31,26 @@ if (!entry) throw new Error('Contenu manquant : src/content/pages/home.mdx');
   ogImage={entry.data.ogImage}
   faqs={entry.data.faqs}
 >
-  {/* A — ATTENTION */}
+  {/* A, ATTENTION */}
   <Hero
     title={"Une borne photo"}
     titleHighlight="qui fait sourire"
     titleAfter="tous vos invités."
-    subtitle="Photobooth au design vintage pour vos mariages et événements au Pays Basque. Installé avant, récupéré après — vous profitez, elle s'occupe des souvenirs."
+    subtitle="Photobooth au design vintage pour vos mariages et événements au Pays Basque. Installé avant, récupéré après, vous profitez, elle s'occupe des souvenirs."
   />
 
-  {/* I — INTÉRÊT : le fonctionnement, puis l'objet */}
+  {/* I, INTÉRÊT : le fonctionnement, puis l'objet */}
   <Method />
   <AboutSection />
 
-  {/* D — DÉSIR : l'offre, les cas d'usage, la présence territoriale */}
+  {/* D, DÉSIR : l'offre, les cas d'usage, la présence territoriale */}
   <FormulesSection />
   <TemplatesGallery />
   <ReviewsSection />
   <Occasions />
   <Marquee />
 
-  {/* A — ACTION : rassurance géographique, objections, conversion */}
+  {/* A, ACTION : rassurance géographique, objections, conversion */}
   <Zones />
   <LatestArticles />
 

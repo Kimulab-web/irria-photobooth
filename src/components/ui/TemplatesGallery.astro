@@ -1,6 +1,6 @@
 ---
 /**
- * Section Templates — fan reveal.
+ * Section Templates, fan reveal.
  * Les 7 tirages sont groupés au centre au départ. Quand la section entre
  * dans le viewport, ils s'étalent en arc comme une main de cartes.
  * Au survol d'un tirage, il revient au centre + grossit, les autres
@@ -12,13 +12,13 @@
    à +180 (bas) pour un effet "main de cartes".
    `tilt` suit la position angulaire pour que chaque carte "pointe" vers le centre. */
 const templates = [
-  { src: '/templates/template-04.jpg', alt: 'Template Atlas Padel — groupe', x: -460, y: 180, tilt: -18 },
-  { src: '/templates/template-01.jpg', alt: 'Template Steph 40 ans — mini-strip', x: -310, y: 60, tilt: -12 },
-  { src: '/templates/template-03.jpg', alt: 'Template Atlas Padel — strip 3 photos', x: -160, y: -30, tilt: -6 },
-  { src: '/templates/template-06.jpg', alt: 'Template Mélina & David — portrait', x: 0, y: -60, tilt: 0 },
-  { src: '/templates/template-05.jpg', alt: 'Template Atlas Padel — trio', x: 160, y: -30, tilt: 6 },
-  { src: '/templates/template-02.jpg', alt: 'Template Steph 40 ans — portrait', x: 310, y: 60, tilt: 12 },
-  { src: '/templates/template-07.jpg', alt: 'Template Mélina & David — strip', x: 460, y: 180, tilt: 18 },
+  { src: '/templates/template-04.jpg', alt: 'Template Atlas Padel, groupe', x: -460, y: 180, tilt: -18 },
+  { src: '/templates/template-01.jpg', alt: 'Template Steph 40 ans, mini-strip', x: -310, y: 60, tilt: -12 },
+  { src: '/templates/template-03.jpg', alt: 'Template Atlas Padel, strip 3 photos', x: -160, y: -30, tilt: -6 },
+  { src: '/templates/template-06.jpg', alt: 'Template Mélina & David, portrait', x: 0, y: -60, tilt: 0 },
+  { src: '/templates/template-05.jpg', alt: 'Template Atlas Padel, trio', x: 160, y: -30, tilt: 6 },
+  { src: '/templates/template-02.jpg', alt: 'Template Steph 40 ans, portrait', x: 310, y: 60, tilt: 12 },
+  { src: '/templates/template-07.jpg', alt: 'Template Mélina & David, strip', x: 460, y: 180, tilt: 18 },
 ];
 ---
 
@@ -159,7 +159,7 @@ const templates = [
   }
   .fan-card.in:hover {
     z-index: 100;
-    /* Reste à sa position dans l'arc mais se redresse + grossit —
+    /* Reste à sa position dans l'arc mais se redresse + grossit , 
        pas de translate au centre, sinon la carte quitte le curseur et flickr. */
     transform:
       translate(calc(-50% + var(--x, 0px)), calc(-50% + var(--y, 0px) - 12px))
