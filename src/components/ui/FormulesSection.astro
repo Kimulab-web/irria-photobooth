@@ -1,6 +1,7 @@
 ---
 import { formules } from '../../data/formules';
 import FormuleRow from './FormuleRow.astro';
+import LivreOrVideoAddon from './LivreOrVideoAddon.astro';
 
 interface Props {
   showHead?: boolean;
@@ -27,6 +28,8 @@ const { showHead = true } = Astro.props;
         </div>
       ))}
     </div>
+
+    <LivreOrVideoAddon />
   </div>
 </section>
 
