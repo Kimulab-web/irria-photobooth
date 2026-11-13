@@ -12,7 +12,7 @@ export const zones: { region: string; villes: Ville[] }[] = [
   {
     region: 'Pays Basque',
     villes: [
-      { nom: 'Bayonne' },
+      { nom: 'Bayonne', href: '/location-photobooth-bayonne/' },
       { nom: 'Biarritz', href: '/location-photobooth-biarritz/' },
       { nom: 'Anglet' },
       { nom: 'Saint-Jean-de-Luz' },

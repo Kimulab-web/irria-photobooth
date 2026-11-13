@@ -18,6 +18,13 @@ export const googleProfileUrl = 'https://maps.app.goo.gl/HyviAqNh1noSnyNG9';
 
 export const reviews: Review[] = [
   {
+    author: 'James Estrada',
+    rating: 5,
+    date: '2026-11-09',
+    dateLabel: 'novembre 2026',
+    text: "Parfait ! Je recommande pour vos événements.",
+  },
+  {
     author: 'Mélina & David',
     rating: 5,
     date: '2026-10-03',
